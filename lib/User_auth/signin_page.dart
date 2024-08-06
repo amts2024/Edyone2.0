@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:edyon/reset_mobile.dart';
+import 'package:edyon/User_auth/reset_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'forgotPasswordNumber.dart';
 import 'register_mobile.dart';
-import 'Navbar.dart';
+import '../Navbar.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -306,7 +307,7 @@ class _SignInPageState extends State<SignInPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ResetOTP(),
+                              builder: (context) => ForgotPass(),
                             ),
                           );
                         },

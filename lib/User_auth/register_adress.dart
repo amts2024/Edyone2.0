@@ -2,7 +2,7 @@ import 'dart:convert'; // Import dart:convert package
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Navbar.dart';
+import '../Navbar.dart';
 import 'register_mobile.dart';
 
 class AddressDetailsPage extends StatefulWidget {

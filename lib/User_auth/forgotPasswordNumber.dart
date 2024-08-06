@@ -1,20 +1,21 @@
 import 'dart:convert';
-import 'package:edyon/resetotppage.dart';
+import 'package:edyon/User_auth/resetotppage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'ForgotOtp.dart';
 import 'otppage.dart'; // Import the OTP page
 import 'signin_page.dart'; // Import the Sign-In page
 
-class ResetOTP extends StatefulWidget {
-  const ResetOTP({Key? key}) : super(key: key);
+class ForgotPass extends StatefulWidget {
+  const ForgotPass({Key? key}) : super(key: key);
 
   @override
   _RegisterOTPState createState() => _RegisterOTPState();
 }
 
-class _RegisterOTPState extends State<ResetOTP> {
+class _RegisterOTPState extends State<ForgotPass> {
   final TextEditingController phoneController = TextEditingController();
   String? _errorMessage;
   bool _isLoading = false;
@@ -41,7 +42,8 @@ class _RegisterOTPState extends State<ResetOTP> {
       return;
     }
 
-    final url = Uri.parse('https://admin.edyone.site/api/student/otp-send');
+    final url =
+        Uri.parse('https://admin.edyone.site/api/student/forget-password');
     final response = await http.post(
       url,
       headers: {
@@ -71,7 +73,7 @@ class _RegisterOTPState extends State<ResetOTP> {
       // Navigate to the OTP page
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => REnterOTPPage(token: token)),
+        MaterialPageRoute(builder: (context) => ForgotpassOTP(token: token)),
       );
     } else {
       setState(() {

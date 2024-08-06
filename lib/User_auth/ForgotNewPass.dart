@@ -1,16 +1,15 @@
+import 'package:edyon/User_auth/signin_page.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:edyon/registration.dart';
+// Import the SignInPage
 
-class CreatePasswordPage extends StatefulWidget {
-  const CreatePasswordPage({Key? key}) : super(key: key);
+class ForgotNewPass extends StatefulWidget {
+  const ForgotNewPass({Key? key}) : super(key: key);
 
   @override
-  _CreatePasswordPageState createState() => _CreatePasswordPageState();
+  _ResetpwdState createState() => _ResetpwdState();
 }
 
-class _CreatePasswordPageState extends State<CreatePasswordPage> {
+class _ResetpwdState extends State<ForgotNewPass> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -24,30 +23,34 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
   }
 
   void _createPassword() async {
+    // Perform validation
     String password = _passwordController.text;
     String confirmPassword = _confirmPasswordController.text;
 
+    // Check if passwords are empty
     if (password.isEmpty || confirmPassword.isEmpty) {
       setState(() {
-        _errorMessage = 'Please enter password and confirm password';
+        _errorMessage = 'Password must be 8 characters';
       });
       return;
     }
 
+    // Check if passwords match
     if (password != confirmPassword) {
       setState(() {
-        _errorMessage = 'Passwords do not match';
+        _errorMessage = 'Password should be same';
       });
       return;
     }
 
+    // Check if password meets criteria
     RegExp uppercaseRegExp = RegExp(r'[A-Z]');
     RegExp digitRegExp = RegExp(r'\d');
     RegExp symbolRegExp = RegExp(r'[!@#\$%^&*(),.?":{}|<>]');
 
     if (password.length < 8 || password.length > 16) {
       setState(() {
-        _errorMessage = 'Password must be between 8 and 16 characters';
+        _errorMessage = 'Password must be 8 characters';
       });
       return;
     } else if (!uppercaseRegExp.hasMatch(password)) {
@@ -62,61 +65,38 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
       return;
     } else if (!symbolRegExp.hasMatch(password)) {
       setState(() {
-        _errorMessage = 'Password must contain at least one special character';
+        _errorMessage = 'Password must contain at least one symbol';
       });
       return;
     }
 
+    // Reset error message
     setState(() {
       _errorMessage = null;
     });
 
-    await _createPasswordOnServer(password, confirmPassword);
+    // Proceed with password creation logic
+    // Call the API to reset the password
+    bool isPasswordReset = await _resetPassword(password);
+
+    if (isPasswordReset) {
+      // Navigate to SignInPage upon successful password reset
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInPage()),
+      );
+    } else {
+      setState(() {
+        _errorMessage = 'Failed to reset password. Please try again.';
+      });
+    }
   }
 
-  Future<void> _createPasswordOnServer(
-      String password, String confirmPassword) async {
-    String apiUrl = 'https://admin.edyone.site/api/student/create-password';
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-
-    if (token == null) {
-      setState(() {
-        _errorMessage = 'Token not found. Please log in again.';
-      });
-      return;
-    }
-
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    var request = http.MultipartRequest('POST', Uri.parse(apiUrl))
-      ..fields['password'] = password
-      ..fields['password_confirmation'] = confirmPassword
-      ..headers.addAll(headers);
-
-    try {
-      var response = await request.send();
-
-      if (response.statusCode == 200) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => RegistrationPage()), // Your next screen
-        );
-      } else {
-        setState(() {
-          _errorMessage = 'Failed to create password';
-        });
-      }
-    } catch (error) {
-      setState(() {
-        _errorMessage = 'An error occurred. Please try again.';
-      });
-    }
+  Future<bool> _resetPassword(String password) async {
+    // Implement your API call logic here
+    // Return true if the password reset was successful, otherwise false
+    await Future.delayed(Duration(seconds: 2)); // Simulate API call
+    return true; // Simulate successful API response
   }
 
   bool _passwordVisible = false;
@@ -130,7 +110,7 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 0, right: 0),
               child: IconButton(
@@ -142,12 +122,14 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Create New Password',
+              'Change New Password',
               style: TextStyle(
+                fontWeight: FontWeight.bold,
                 fontSize: 22,
               ),
             ),
             const SizedBox(height: 8),
+            // Password Input
             TextField(
               controller: _passwordController,
               obscureText: !_passwordVisible,
@@ -173,11 +155,12 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
               ),
             ),
             const SizedBox(height: 10),
+            // Confirm Password Input
             TextField(
               controller: _confirmPasswordController,
               obscureText: !_confirmPasswordVisible,
               decoration: InputDecoration(
-                hintText: 'Confirm New Password',
+                hintText: 'Confirm Password',
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
                 ),
@@ -210,10 +193,11 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
             const SizedBox(height: 25),
             SizedBox(
               width: double.infinity,
+              height: 60,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Colors.blue, Colors.pink],
+                    colors: [Color(0xFFA10048), Color(0xFF2300FF)],
                     stops: [0.0, 1.0],
                   ),
                   borderRadius: BorderRadius.circular(5.0),
@@ -233,14 +217,17 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
                     foregroundColor:
                         MaterialStateProperty.resolveWith((states) {
                       if (states.contains(MaterialState.disabled)) {
-                        return Colors.black54;
+                        return Colors.black54; // Text color when disabled
                       }
-                      return Colors.white;
+                      return Colors.white; // Text color when enabled
                     }),
                   ),
                   child: const Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 16),
+                    'Reset Password',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Poppins',
+                    ),
                   ),
                 ),
               ),

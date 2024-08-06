@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'dart:async';
-import 'register_mobile.dart';
-import 'otppage.dart';
-import 'signin_page.dart'; // Import the SignInPage
-import 'registration.dart'; // Import the Registration page
+import 'User_auth/register_mobile.dart';
+import 'User_auth/otppage.dart';
+import 'User_auth/signin_page.dart'; // Import the SignInPage
+import 'User_auth/registration.dart'; // Import the Registration page
 
 class SplashScreens extends StatefulWidget {
   @override
