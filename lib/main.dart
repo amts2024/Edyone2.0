@@ -5,6 +5,7 @@ import 'package:edyon/User_auth/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'About_us.dart';
+import 'User_auth/DemoP1.dart';
 import 'splash2.dart';
 import 'User_auth/EducationDetails.dart';
 import 'splash1.dart';

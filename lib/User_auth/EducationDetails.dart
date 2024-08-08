@@ -116,7 +116,7 @@ class BottomButton extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        _navigateToDashboard(context, _EducationFormFieldState.selectedOption3);
+        _navigateToAddressDetailsPage(context);
       } else {
         _showErrorDialog(context, 'Failed to submit education details.');
       }
@@ -126,44 +126,10 @@ class BottomButton extends StatelessWidget {
     }
   }
 
-  void _navigateToDashboard(BuildContext context, String? selectedClass) {
-    Widget dashboardPage;
-
-    switch (selectedClass) {
-      case '4th':
-        dashboardPage = const DashboardPageClass4();
-        break;
-      case '5th':
-        dashboardPage = const DashboardPageClass5();
-        break;
-      case '6th':
-        dashboardPage = const DashboardPageClass6();
-        break;
-      case '7th':
-        dashboardPage = const DashboardPageClass7();
-        break;
-      case '8th':
-        dashboardPage = const DashboardPageClass8();
-        break;
-      case '9th':
-        dashboardPage = const DashboardPageClass9();
-        break;
-      case '10th':
-        dashboardPage = const DashboardPageClass10();
-        break;
-      case '11th':
-        dashboardPage = const DashboardPageClass11();
-        break;
-      case '12th':
-        dashboardPage = const DashboardPageClass12();
-        break;
-      default:
-        dashboardPage = const DefaultDashboardPage();
-    }
-
+  void _navigateToAddressDetailsPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => dashboardPage),
+      MaterialPageRoute(builder: (context) => const AddressDetailsPage()),
     );
   }
 
@@ -317,125 +283,125 @@ class _EducationFormFieldState extends State<EducationFormField> {
   }
 }
 
-// Define your dashboard pages according to class
-class DashboardPageClass4 extends StatelessWidget {
-  const DashboardPageClass4({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 4')),
-      body: const Center(child: Text('Dashboard for Class 4')),
-    );
-  }
-}
-
-class DashboardPageClass5 extends StatelessWidget {
-  const DashboardPageClass5({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 5')),
-      body: const Center(child: Text('Dashboard for Class 5')),
-    );
-  }
-}
-
-// Define similar classes for other classes up to Class 12
-
-class DashboardPageClass6 extends StatelessWidget {
-  const DashboardPageClass6({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 6')),
-      body: const Center(child: Text('Dashboard for Class 6')),
-    );
-  }
-}
-
-class DashboardPageClass7 extends StatelessWidget {
-  const DashboardPageClass7({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 7')),
-      body: const Center(child: Text('Dashboard for Class 7')),
-    );
-  }
-}
-
-class DashboardPageClass8 extends StatelessWidget {
-  const DashboardPageClass8({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 8')),
-      body: const Center(child: Text('Dashboard for Class 8')),
-    );
-  }
-}
-
-class DashboardPageClass9 extends StatelessWidget {
-  const DashboardPageClass9({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 9')),
-      body: const Center(child: Text('Dashboard for Class 9')),
-    );
-  }
-}
-
-class DashboardPageClass10 extends StatelessWidget {
-  const DashboardPageClass10({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 10')),
-      body: const Center(child: Text('Dashboard for Class 10')),
-    );
-  }
-}
-
-class DashboardPageClass11 extends StatelessWidget {
-  const DashboardPageClass11({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 11')),
-      body: const Center(child: Text('Dashboard for Class 11')),
-    );
-  }
-}
-
-class DashboardPageClass12 extends StatelessWidget {
-  const DashboardPageClass12({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard for Class 12')),
-      body: const Center(child: Text('Dashboard for Class 12')),
-    );
-  }
-}
-
-class DefaultDashboardPage extends StatelessWidget {
-  const DefaultDashboardPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
-      body: const Center(child: Text('Default Dashboard')),
-    );
-  }
-}
+// // Define your dashboard pages according to class
+// class DashboardPageClass4 extends StatelessWidget {
+//   const DashboardPageClass4({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 4')),
+//       body: const Center(child: Text('Dashboard for Class 4')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass5 extends StatelessWidget {
+//   const DashboardPageClass5({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 5')),
+//       body: const Center(child: Text('Dashboard for Class 5')),
+//     );
+//   }
+// }
+//
+// // Define similar classes for other classes up to Class 12
+//
+// class DashboardPageClass6 extends StatelessWidget {
+//   const DashboardPageClass6({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 6')),
+//       body: const Center(child: Text('Dashboard for Class 6')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass7 extends StatelessWidget {
+//   const DashboardPageClass7({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 7')),
+//       body: const Center(child: Text('Dashboard for Class 7')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass8 extends StatelessWidget {
+//   const DashboardPageClass8({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 8')),
+//       body: const Center(child: Text('Dashboard for Class 8')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass9 extends StatelessWidget {
+//   const DashboardPageClass9({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 9')),
+//       body: const Center(child: Text('Dashboard for Class 9')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass10 extends StatelessWidget {
+//   const DashboardPageClass10({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 10')),
+//       body: const Center(child: Text('Dashboard for Class 10')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass11 extends StatelessWidget {
+//   const DashboardPageClass11({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 11')),
+//       body: const Center(child: Text('Dashboard for Class 11')),
+//     );
+//   }
+// }
+//
+// class DashboardPageClass12 extends StatelessWidget {
+//   const DashboardPageClass12({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard for Class 12')),
+//       body: const Center(child: Text('Dashboard for Class 12')),
+//     );
+//   }
+// }
+//
+// class DefaultDashboardPage extends StatelessWidget {
+//   const DefaultDashboardPage({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Dashboard')),
+//       body: const Center(child: Text('Default Dashboard')),
+//     );
+//   }
+// }

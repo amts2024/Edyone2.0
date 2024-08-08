@@ -94,18 +94,18 @@ class _ContactUsState extends State<ContactUs> {
                         height: 50, // Adjust height as needed
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        print("Telephone image clicked");
-                        // Add your logic for telephone image click here
-                      },
-                      child: Image(
-                        image: AssetImage(
-                            'icon/telephone.png'), // Replace with your image path
-                        width: 50, // Adjust width as needed
-                        height: 50, // Adjust height as needed
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     print("Telephone image clicked");
+                    //     // Add your logic for telephone image click here
+                    //   },
+                    //   child: Image(
+                    //     image: AssetImage(
+                    //         'icon/telephone.png'), // Replace with your image path
+                    //     width: 50, // Adjust width as needed
+                    //     height: 50, // Adjust height as needed
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -205,38 +205,6 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               const SizedBox(height: 11), // Add some spacing before the new row
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 100, // Set a fixed width for the colored text box
-                      child: const Text(
-                        "Phone:",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Color(0xFF5445A2),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                        width: 20), // Space between the two text widgets
-                    const Expanded(
-                      child: Text(
-                        "+91 98989 98989",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Color(0xFF3E3E3E),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
 
               Container(
                 margin: const EdgeInsets.only(top: 11, left: 10, right: 10),

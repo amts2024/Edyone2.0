@@ -8,7 +8,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       leading: Builder(
         builder: (context) => IconButton(
           icon: ImageIcon(
-            AssetImage('icon/menu.png'),
+            AssetImage('icon/Category.png'),
             color: Color(0xFF454545),
           ),
           onPressed: () {

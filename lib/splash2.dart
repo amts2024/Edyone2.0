@@ -274,7 +274,7 @@ class SplashScreenContent extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               imagePath,
@@ -283,7 +283,8 @@ class SplashScreenContent extends StatelessWidget {
             ),
             SizedBox(height: 0),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
               child: Text(
                 title,
                 textAlign: TextAlign.center,
@@ -294,9 +295,9 @@ class SplashScreenContent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
               child: Text(
                 description,
                 textAlign: TextAlign.center,
@@ -307,6 +308,9 @@ class SplashScreenContent extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

@@ -33,35 +33,35 @@ class BottomNavbar extends StatelessWidget {
               context,
               0,
               'icon/home.png',
-              'icon/home_filled.png',
+              'icon/housebold.png',
               'Home',
             ),
             _buildNavItem(
               context,
               1,
-              'icon/userclasess.png',
-              'icon/userclassesBold.png',
-              'Classes',
+              'icon/lesson.png',
+              'icon/lessonbold.png',
+              'Courses',
             ),
             _buildNavItem(
               context,
               2,
-              'icon/notebook.png',
-              'icon/notebook_filled.png',
-              'Assignments',
+              'icon/workshop.png',
+              'icon/workshopbold.png',
+              'Learning Center',
             ),
             _buildNavItem(
               context,
               3,
-              'icon/chartpi.png',
-              'icon/chart_filled.png',
-              'Analytics',
+              'icon/books.png',
+              'icon/booksbold.png',
+              'Batch',
             ),
             _buildNavItem(
               context,
               4,
               'icon/dot-pending.png',
-              'icon/more_filled.png',
+              'icon/3dot.png',
               'More',
             ),
           ],
@@ -87,12 +87,7 @@ class BottomNavbar extends StatelessWidget {
     final bool isSelected = selectedIndex == index;
     return BottomNavigationBarItem(
       icon: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.transparent : Colors.transparent,
-          borderRadius: BorderRadius.circular(
-              12.0), // Adjust the radius to match your design
-        ),
-        padding: EdgeInsets.all(8.0), // Adjust padding to your preference
+        padding: EdgeInsets.all(8.0),
         child: Image.asset(
           isSelected ? filledIconPath : outlineIconPath,
           width: 24,
@@ -101,8 +96,6 @@ class BottomNavbar extends StatelessWidget {
         ),
       ),
       label: label,
-      // You can also use `label` as `null` if you don't want the label to appear
-      // Make sure to remove `showUnselectedLabels` and `showSelectedLabels` if you hide labels
     );
   }
 }

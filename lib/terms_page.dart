@@ -7,26 +7,26 @@ class TermsAndConditions extends StatefulWidget {
   const TermsAndConditions({Key? key}) : super(key: key);
 
   @override
-  State<TermsAndConditions> createState() => _TermsAndConditionsState();
+  State<TermsAndConditions> createState() => _PrivacyState();
 }
 
-class _TermsAndConditionsState extends State<TermsAndConditions> {
-  String? _termsContent;
+class _PrivacyState extends State<TermsAndConditions> {
+  String? _privacy;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchTermsAndConditions();
+    fetchPrivacyPolicy();
   }
 
-  Future<void> fetchTermsAndConditions() async {
+  Future<void> fetchPrivacyPolicy() async {
     final url = Uri.parse('https://admin.edyone.site/api/terms/get');
     final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer hCSJk41yEtchDa4JH8HLtLVj5hOxDXpq1ycIuggn'
+        'Authorization': 'Bearer fKlw0WyyLhFDZCCuwfKBBlWaREbcj8yn8xPWrVsS'
       },
       body: json.encode({'type': 'terms_and_conditions'}),
     );
@@ -38,18 +38,18 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       final responseBody = json.decode(response.body);
       if (responseBody['status'] == true) {
         setState(() {
-          _termsContent = responseBody['data'];
+          _privacy = responseBody['data'];
           _isLoading = false;
         });
       } else {
         setState(() {
-          _termsContent = "Failed to load terms and conditions.";
+          _privacy = "Failed to load privacy policy.";
           _isLoading = false;
         });
       }
     } else {
       setState(() {
-        _termsContent = "Failed to load terms and conditions.";
+        _privacy = "Failed to load privacy policy.";
         _isLoading = false;
       });
     }
@@ -64,74 +64,87 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_sharp),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Terms and Conditions',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: Color(0xFF0B121F),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 0),
+              const SizedBox(height: 16),
               _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Html(
-                        data: _termsContent,
-                        style: {
-                          "body": Style(
-                            fontFamily: 'Poppins',
-                            fontSize: FontSize(14),
-                            color: Color(0xFF000000),
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xFF0B121F),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Html(
+                            data: _privacy,
+                            style: {
+                              "body": Style(
+                                fontFamily: 'Poppins',
+                                fontSize: FontSize(10),
+                                color: Color(0xFF000000),
+                                lineHeight: LineHeight(1.5),
+                              ),
+                              "h1": Style(
+                                fontSize: FontSize(0),
+                                fontWeight: FontWeight.w100,
+                                color: Colors.white,
+                              ),
+                              "h2": Style(
+                                fontSize: FontSize(18),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Poppins',
+                              ),
+                              "h3": Style(
+                                fontSize: FontSize(16),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Poppins',
+                              ),
+                              "p": Style(
+                                fontSize: FontSize(14),
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                              "ul": Style(
+                                fontSize: FontSize(14),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Poppins',
+                              ),
+                              "ol": Style(
+                                fontSize: FontSize(14),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Poppins',
+                              ),
+                              "li": Style(
+                                fontSize: FontSize(14),
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                              "a": Style(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Poppins',
+                                textDecoration: TextDecoration.none,
+                              ),
+                            },
                           ),
-                          "h1": Style(
-                            fontSize: FontSize(0),
-                            fontWeight: FontWeight.w100,
-                            color: Colors.white,
-                          ),
-                          "h2": Style(
-                            fontSize: FontSize(18),
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                          "h3": Style(
-                            fontSize: FontSize(16),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins',
-                          ),
-                          "p": Style(
-                            fontSize: FontSize(14),
-                            fontFamily: 'Poppins',
-                          ),
-                          "ul": Style(
-                            fontSize: FontSize(14),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins',
-                          ),
-                          "ol": Style(
-                            fontSize: FontSize(14),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Poppins',
-                          ),
-                          "li": Style(
-                            fontSize: FontSize(14),
-                            fontFamily: 'Poppins',
-                          ),
-                        },
-                      ),
+                        ),
+                      ],
                     ),
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'Course_Pages/Course.dart';
 import 'Instructor.dart';
 import 'Unitle_pages/bottom_navbar.dart';
 import 'Unitle_pages/side_menubar.dart';
@@ -23,7 +24,7 @@ class _NavbarState extends State<Navbar> {
 
   final List<Widget> _pages = [
     HomePage(),
-    ReferEarnPage(),
+    CoursesScreen(),
     WalletPage(),
     CalendarPage(),
     CoursesPage(),
@@ -79,22 +80,15 @@ class _HomePageState extends State<HomePage> {
     'images/banner.png',
     'images/banner.png',
     'images/banner.png',
-    'images/banner.png',
-    'images/banner.png',
-    'images/banner.png',
-    'images/banner.png',
   ];
 
   @override
   void initState() {
     super.initState();
-    // Start the timer when the page is initialized
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < _bannerImages.length + 1) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
+      setState(() {
+        _currentPage = (_currentPage + 1) % _bannerImages.length;
+      });
       _pageController.animateToPage(
         _currentPage,
         duration: Duration(milliseconds: 300),
@@ -112,15 +106,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Home Page'),
-      // ),
       body: ListView(
         children: [
           // Search Bar
-          Container(
-            height: 60, // Set the height of the search bar container
-            padding: const EdgeInsets.all(7.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search...',
@@ -131,13 +121,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(
-              height:
-                  12), // Add some space between the search bar and the banner slider
-
-          // Banner Image Slider with PageView
+          SizedBox(height: 12),
+          // Banner Image Slider
           Container(
-            height: 200, // Adjust the height as needed
+            height: 200,
             child: PageView.builder(
               controller: _pageController,
               itemCount: _bannerImages.length,
@@ -157,17 +144,12 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-
-          SizedBox(
-              height:
-                  6), // Add some space between the banner image slider and other content
-
+          SizedBox(height: 6),
           // Page Indicator
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _bannerImages.map((String url) {
-                int index = _bannerImages.indexOf(url);
+              children: List.generate(_bannerImages.length, (int index) {
                 return Container(
                   width: 8.0,
                   height: 8.0,
@@ -179,15 +161,11 @@ class _HomePageState extends State<HomePage> {
                         _currentPage == index ? Colors.grey : Color(0xFF1A21BC),
                   ),
                 );
-              }).toList(),
+              }),
             ),
           ),
-
-          SizedBox(
-              height:
-                  12), // Add some space between the slider indicator and other content
-
-          // Other content of the home page
+          SizedBox(height: 12),
+          // Other content
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -224,7 +202,7 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Wallet Page'),
+      child: Text('Learning Center'),
     );
   }
 }
@@ -233,7 +211,7 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Calendar Page'),
+      child: Text('Batch'),
     );
   }
 }
@@ -251,7 +229,7 @@ class CoursesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Courses Page'),
+      child: Text('More Option'),
     );
   }
 }
