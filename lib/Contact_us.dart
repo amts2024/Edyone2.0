@@ -25,7 +25,8 @@ class _ContactUsState extends State<ContactUs> {
                       Navigator.pop(context);
                     },
                   ),
-                  const SizedBox(width: 8), // Optional spacing between icon and text
+                  const SizedBox(
+                      width: 8), // Optional spacing between icon and text
                   const Text(
                     'Contact Us', // The text you want to display next to the icon
                     style: TextStyle(
@@ -37,12 +38,14 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10), // Add some spacing between the icon and the next container
+              const SizedBox(
+                  height:
+                      10), // Add some spacing between the icon and the next container
               Container(
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.center, // Center the image
                 child: Image.asset(
-                  'Image/contactus.png',
+                  'Images/contactus.png',
                   width: 206, // Set the image width
                   height: 206, // Set the image height
                   fit: BoxFit.contain, // Maintain aspect ratio without cropping
@@ -64,7 +67,8 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // This will distribute the images evenly
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // This will distribute the images evenly
                   children: [
                     GestureDetector(
                       onTap: () {
@@ -72,7 +76,8 @@ class _ContactUsState extends State<ContactUs> {
                         // Add your logic for mail image click here
                       },
                       child: Image(
-                        image: AssetImage('icon/mail.png'), // Replace with your image path
+                        image: AssetImage(
+                            'icon/mail.png'), // Replace with your image path
                         width: 50, // Adjust width as needed
                         height: 50, // Adjust height as needed
                       ),
@@ -83,7 +88,8 @@ class _ContactUsState extends State<ContactUs> {
                         // Add your logic for WhatsApp image click here
                       },
                       child: Image(
-                        image: AssetImage('icon/whatsapp.png'), // Replace with your image path
+                        image: AssetImage(
+                            'icon/whatsapp.png'), // Replace with your image path
                         width: 50, // Adjust width as needed
                         height: 50, // Adjust height as needed
                       ),
@@ -94,7 +100,8 @@ class _ContactUsState extends State<ContactUs> {
                         // Add your logic for telephone image click here
                       },
                       child: Image(
-                        image: AssetImage('icon/telephone.png'), // Replace with your image path
+                        image: AssetImage(
+                            'icon/telephone.png'), // Replace with your image path
                         width: 50, // Adjust width as needed
                         height: 50, // Adjust height as needed
                       ),
@@ -148,7 +155,8 @@ class _ContactUsState extends State<ContactUs> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 20), // Space between the two text widgets
+                    const SizedBox(
+                        width: 20), // Space between the two text widgets
                     const Expanded(
                       child: Text(
                         "www.edyone.com",
@@ -180,7 +188,8 @@ class _ContactUsState extends State<ContactUs> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 20), // Space between the two text widgets
+                    const SizedBox(
+                        width: 20), // Space between the two text widgets
                     const Expanded(
                       child: Text(
                         "support@edyone.com",
@@ -212,7 +221,8 @@ class _ContactUsState extends State<ContactUs> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 20), // Space between the two text widgets
+                    const SizedBox(
+                        width: 20), // Space between the two text widgets
                     const Expanded(
                       child: Text(
                         "+91 98989 98989",
@@ -257,7 +267,8 @@ class _ContactUsState extends State<ContactUs> {
               ),
               const SizedBox(height: 11), // Add some spacing before the new row
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical:6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 child: Row(
                   children: [
                     Container(
@@ -268,7 +279,8 @@ class _ContactUsState extends State<ContactUs> {
                         height: 22, // Adjust height as needed
                       ),
                     ),
-                    const SizedBox(width: 60), // Space between the image and text
+                    const SizedBox(
+                        width: 60), // Space between the image and text
                     const Expanded(
                       child: Text(
                         "@edyone",
@@ -284,7 +296,8 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical:6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 child: Row(
                   children: [
                     Container(
@@ -295,7 +308,8 @@ class _ContactUsState extends State<ContactUs> {
                         height: 22, // Adjust height as needed
                       ),
                     ),
-                    const SizedBox(width: 60), // Space between the image and text
+                    const SizedBox(
+                        width: 60), // Space between the image and text
                     const Expanded(
                       child: Text(
                         "@edyone",
@@ -311,7 +325,8 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical:6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 child: Row(
                   children: [
                     Container(
@@ -322,7 +337,8 @@ class _ContactUsState extends State<ContactUs> {
                         height: 22, // Adjust height as needed
                       ),
                     ),
-                    const SizedBox(width: 60), // Space between the image and text
+                    const SizedBox(
+                        width: 60), // Space between the image and text
                     const Expanded(
                       child: Text(
                         "@edyone",
@@ -338,19 +354,21 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical:6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 child: Row(
                   children: [
                     Container(
                       width: 50,
-                      height: 25,// Set a fixed width for the colored text box
+                      height: 25, // Set a fixed width for the colored text box
                       child: Image.asset(
                         'icon/facebook.png', // Replace with your image path
                         width: 22, // Adjust width as needed
                         height: 22, // Adjust height as needed
                       ),
                     ),
-                    const SizedBox(width: 60), // Space between the image and text
+                    const SizedBox(
+                        width: 60), // Space between the image and text
                     const Expanded(
                       child: Text(
                         "fb.com/edyone",
@@ -366,7 +384,8 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15,vertical:6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 child: Row(
                   children: [
                     Container(
@@ -377,7 +396,8 @@ class _ContactUsState extends State<ContactUs> {
                         height: 22, // Adjust height as needed
                       ),
                     ),
-                    const SizedBox(width: 60), // Space between the image and text
+                    const SizedBox(
+                        width: 60), // Space between the image and text
                     const Expanded(
                       child: Text(
                         "yt.com/edyone1",
@@ -433,7 +453,9 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ),
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 11, left: 10, right: 10),
                 constraints: BoxConstraints(
@@ -449,14 +471,14 @@ class _ContactUsState extends State<ContactUs> {
                   children: [
                     Expanded(
                       child: TextField(
-
                         decoration: InputDecoration(
                           hintText: 'Enter Subject',
                           hintStyle: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            height: 1.5, // This corresponds to line height 24px (24/16 = 1.5)
+                            height:
+                                1.5, // This corresponds to line height 24px (24/16 = 1.5)
                             color: Color(0xFFADADAD),
                           ),
                           border: InputBorder.none,
@@ -466,7 +488,9 @@ class _ContactUsState extends State<ContactUs> {
                   ],
                 ),
               ),
-              SizedBox(height: 11,),
+              SizedBox(
+                height: 11,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 11, left: 10, right: 10),
                 constraints: BoxConstraints(
@@ -488,7 +512,8 @@ class _ContactUsState extends State<ContactUs> {
                             fontFamily: 'Poppins',
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            height: 1.5, // This corresponds to line height 24px (24/16 = 1.5)
+                            height:
+                                1.5, // This corresponds to line height 24px (24/16 = 1.5)
                             color: Color(0xFFADADAD),
                           ),
                           border: InputBorder.none,
@@ -498,12 +523,15 @@ class _ContactUsState extends State<ContactUs> {
                   ],
                 ),
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Center(
                 child: Container(
                   width: 335,
                   height: 60,
-                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   margin: const EdgeInsets.only(top: 0),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -531,8 +559,9 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
 
-
-              SizedBox(height: 40,)
+              SizedBox(
+                height: 40,
+              )
             ],
           ),
         ),
