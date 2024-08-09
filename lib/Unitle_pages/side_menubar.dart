@@ -407,7 +407,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.clear();
 
-                // Navigate to the login screen
+                // Navigate to the SignInPage
                 Navigator.of(context).pushReplacementNamed('/login');
               },
             ),

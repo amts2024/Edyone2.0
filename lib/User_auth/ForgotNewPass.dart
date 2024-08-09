@@ -23,11 +23,9 @@ class _ResetpwdState extends State<ForgotNewPass> {
   }
 
   void _createPassword() async {
-    // Perform validation
     String password = _passwordController.text;
     String confirmPassword = _confirmPasswordController.text;
 
-    // Check if passwords are empty
     if (password.isEmpty || confirmPassword.isEmpty) {
       setState(() {
         _errorMessage = 'Password must be 8 characters';
@@ -35,15 +33,13 @@ class _ResetpwdState extends State<ForgotNewPass> {
       return;
     }
 
-    // Check if passwords match
     if (password != confirmPassword) {
       setState(() {
-        _errorMessage = 'Password should be same';
+        _errorMessage = 'Password should be the same';
       });
       return;
     }
 
-    // Check if password meets criteria
     RegExp uppercaseRegExp = RegExp(r'[A-Z]');
     RegExp digitRegExp = RegExp(r'\d');
     RegExp symbolRegExp = RegExp(r'[!@#\$%^&*(),.?":{}|<>]');
@@ -70,17 +66,13 @@ class _ResetpwdState extends State<ForgotNewPass> {
       return;
     }
 
-    // Reset error message
     setState(() {
       _errorMessage = null;
     });
 
-    // Proceed with password creation logic
-    // Call the API to reset the password
     bool isPasswordReset = await _resetPassword(password);
 
     if (isPasswordReset) {
-      // Navigate to SignInPage upon successful password reset
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => SignInPage()),
@@ -93,8 +85,6 @@ class _ResetpwdState extends State<ForgotNewPass> {
   }
 
   Future<bool> _resetPassword(String password) async {
-    // Implement your API call logic here
-    // Return true if the password reset was successful, otherwise false
     await Future.delayed(Duration(seconds: 2)); // Simulate API call
     return true; // Simulate successful API response
   }

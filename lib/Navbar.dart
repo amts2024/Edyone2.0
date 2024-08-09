@@ -47,6 +47,15 @@ class _NavbarState extends State<Navbar> {
     });
   }
 
+  void _login() async {
+    // Assume login is successful
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+
+    // Navigate to HomePage
+    Navigator.of(context).pushReplacementNamed('/home');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

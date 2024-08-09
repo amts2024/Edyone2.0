@@ -1,26 +1,9 @@
-import 'package:edyon/User_auth/Reset_pwd.dart';
-import 'package:edyon/User_auth/register_adress.dart';
-import 'package:edyon/User_auth/register_mobile.dart';
-import 'package:edyon/User_auth/registration.dart';
+import 'package:edyon/splash1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'About_us.dart';
-import 'User_auth/DemoP1.dart';
-import 'splash2.dart';
-import 'User_auth/EducationDetails.dart';
-import 'splash1.dart';
-import 'User_auth/otppage.dart';
-import 'User_auth/signin_page.dart';
-import 'User_auth/create_password.dart';
 import 'Navbar.dart';
-import 'Instructor.dart';
-import 'Instructor_deatails.dart';
-import 'Contact_us.dart';
-import 'privacy_policy.dart';
-import 'terms_page.dart';
-import 'wallet.dart';
-import 'my_profile _page.dart';
-import 'notifications.dart';
+import 'User_auth/signin_page.dart'; // Import SignInPage
 
 void main() {
   runApp(const MyApp());
@@ -40,18 +23,45 @@ class MyApp extends StatelessWidget {
     ));
 
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false, // Remove the debug banner
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MainPage(),
+        '/login': (context) => SignInPage(), // Add the CheckAuth route
+        '/home': (context) => Navbar(), // Home or Dashboard
+        // Login screen
+      },
+    );
+  }
+}
 
-        // home: MainPage(),
-        debugShowCheckedModeBanner: false, // Remove the debug banner
-        initialRoute: '/',
-        routes: {
-          '/': (context) => MainPage(),
-          '/login': (context) => MainPage()
-        });
+class CheckAuth extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _checkLoginStatus(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+              body: Center(
+                  child:
+                      CircularProgressIndicator())); // Show a loading spinner
+        } else if (snapshot.hasData && snapshot.data == true) {
+          return HomePage(); // Redirect to the HomePage if logged in
+        } else {
+          return MainPage(); // Redirect to the MainPage if not logged in
+        }
+      },
+    );
+  }
+
+  Future<bool> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false;
   }
 }
