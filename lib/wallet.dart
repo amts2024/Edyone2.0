@@ -95,7 +95,7 @@ class _WalletState extends State<Wallet> {
                       ],
                     ),
                     Image.asset(
-                      'icon/rupee.png', // Your image asset path
+                      'assets/icon/rupee.png', // Your image asset path
                       width: 92,
                       height: 71,
                     ),
@@ -255,7 +255,7 @@ class _WalletState extends State<Wallet> {
                     // Add your widgets here
                     // Assuming you have an image asset named 'right_image.png' in your assets
                     Image.asset(
-                      'icon/bill.png',
+                      'assets/icon/bill.png',
                       width: 40, // Adjust the width according to your design
                       height: 40, // Adjust the height according to your design
                       fit: BoxFit.cover,
@@ -353,7 +353,7 @@ class _WalletState extends State<Wallet> {
                     // Add your widgets here
                     // Assuming you have an image asset named 'right_image.png' in your assets
                     Image.asset(
-                      'icon/bill.png',
+                      'assets/icon/bill.png',
                       width: 40, // Adjust the width according to your design
                       height: 40, // Adjust the height according to your design
                       fit: BoxFit.cover,

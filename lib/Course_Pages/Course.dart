@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart' as slider;
 import 'package:flutter/material.dart';
 
 class CoursesScreen extends StatefulWidget {

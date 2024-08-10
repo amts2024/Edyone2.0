@@ -74,19 +74,19 @@ class _SplashScreensState extends State<SplashScreens> {
               },
               children: [
                 SplashScreenContent(
-                  imagePath: 'images/logo.png',
+                  imagePath: 'assets/images/logo.png',
                   title: 'Better way of learning is calling you',
                   description:
                       'Learn from the best teachers of India in a simple and easy way',
                 ),
                 SplashScreenContent(
-                  imagePath: 'images/logo2.png',
+                  imagePath: 'assets/images/logo2.png',
                   title: 'Find yourself by learning whatever you learn',
                   description:
                       'Learn whatever you want to learn with the best content at an affordable price by looking for courses and batches.',
                 ),
                 SplashScreenContent(
-                  imagePath: 'images/logo3.png',
+                  imagePath: 'assets/images/logo3.png',
                   title: 'It’s not just learning, It’s a promise!',
                   description:
                       'We will deliver our best to make you the best and it\'s our promise.',
@@ -136,7 +136,7 @@ class _SplashScreensState extends State<SplashScreens> {
                   children: [
                     SizedBox(width: 5),
                     Image.asset(
-                      'images/skip.png', // Ensure this asset is available
+                      'assets/images/skip.png', // Ensure this asset is available
                       width: 45,
                       height: 22,
                     ),

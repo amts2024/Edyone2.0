@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           radius: 76.0, // 80 - 4 (border width)
                           backgroundImage: _image != null
                               ? FileImage(_image!)
-                              : AssetImage("images/banner.png")
+                              : AssetImage("assets/images/banner.png")
                                   as ImageProvider,
                         ),
                       ),
@@ -155,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: EdgeInsets.only(
                               bottom: 28.0), // Add padding to the bottom
                           child: _isEditingName
-                              ? Image.asset('images/pen.png')
+                              ? Image.asset('assets/images/pen.png')
                               : Image.asset(
                                   'images/pen.png',
                                   color: Colors.black,
@@ -297,7 +297,7 @@ class PersonalDetailsPage extends StatelessWidget {
                   left: 18.0,
                   top: 18.0), // Add left and top padding to the calendar logo
               child: Image.asset(
-                'images/calender.png',
+                'assets/images/calender.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -330,7 +330,7 @@ class PersonalDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 18.0), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/sex.png',
+                'assets/images/sex.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -364,7 +364,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/email.png',
+                'assets/images/email.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -398,7 +398,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/mobile.png',
+                'assets/images/mobile.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -432,7 +432,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/adr.png',
+                'assets/images/adr.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -466,7 +466,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/edu.png',
+                'assets/images/edu.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -499,7 +499,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/edb.png',
+                'assets/images/edb.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,
@@ -533,7 +533,7 @@ class PersonalDetailsPage extends StatelessWidget {
                 left: 18.0,
               ), // Add left and top padding to the Gmail logo
               child: Image.asset(
-                'images/training.png',
+                'assets/images/training.png',
                 width: 24,
                 height: 24,
                 color: Colors.black,

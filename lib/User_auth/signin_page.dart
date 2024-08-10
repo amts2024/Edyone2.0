@@ -174,7 +174,7 @@ class _SignInPageState extends State<SignInPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'images/flag.png',
+                                'assets/images/flag.png',
                                 height: 30,
                                 width: 30,
                               ),

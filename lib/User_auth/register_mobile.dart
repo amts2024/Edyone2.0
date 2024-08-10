@@ -120,7 +120,7 @@ class _RegisterOTPState extends State<RegisterOTP> {
               child: Row(
                 children: [
                   Image.asset(
-                    'images/flag.png',
+                    'assets/images/flag.png',
                     height: 30,
                     width: 30,
                   ),

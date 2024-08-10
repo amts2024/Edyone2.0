@@ -121,8 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _showNotification() async {
-    final String largeIconPath = await _loadAssetImage('assets/Image/dd.png');
-    final String bigPicturePath = await _loadAssetImage('assets/Image/contactus.png');
+    final String largeIconPath = await _loadAssetImage('assets/images/dd.png');
+    final String bigPicturePath = await _loadAssetImage('assets/images/contactus.png');
 
     final BigPictureStyleInformation bigPictureStyleInformation =
     BigPictureStyleInformation(

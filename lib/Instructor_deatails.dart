@@ -56,7 +56,7 @@ class _DetailsState extends State<Details> {
                   Column(
                     children: [
                       Image.asset(
-                        'assets/Image/image1.png', // Replace with your image path
+                        'assets/images/image1.png', // Replace with your image path
                         width: 40,
                         height: 40,
                       ),
@@ -68,7 +68,7 @@ class _DetailsState extends State<Details> {
                   Column(
                     children: [
                       Image.asset(
-                        'assets/Image/imge2.png', // Replace with your image path
+                        'assets/images/imge2.png', // Replace with your image path
                         width: 40,
                         height: 40,
                       ),
@@ -80,7 +80,7 @@ class _DetailsState extends State<Details> {
                   Column(
                     children: [
                       Image.asset(
-                        'assets/Image/image3.png', // Replace with your image path
+                        'assets/images/image3.png', // Replace with your image path
                         width: 40,
                         height: 40,
                       ),

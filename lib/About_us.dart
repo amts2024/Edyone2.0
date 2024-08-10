@@ -45,7 +45,7 @@ class _AboutUsState extends State<AboutUs> {
                 padding: const EdgeInsets.all(5),
                 alignment: Alignment.center, // Center the image
                 child: Image.asset(
-                  'Images/dd.png',
+                  'assets/images/dd.png',
                   width: 113.54, // Set the image width
                   height: 92.4, // Set the image height
                   fit: BoxFit.contain, // Maintain aspect ratio without cropping
@@ -57,7 +57,7 @@ class _AboutUsState extends State<AboutUs> {
                 padding: const EdgeInsets.all(5),
                 alignment: Alignment.center,
                 child: Image.asset(
-                  'images/edugur.png',
+                  'assets/images/edugur.png',
                   width: 219, // Set the image width
                   height: 70.4, // Set the image height
                   fit: BoxFit.contain, // Maintain aspect ratio without cropping

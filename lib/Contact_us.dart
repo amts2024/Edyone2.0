@@ -45,7 +45,7 @@ class _ContactUsState extends State<ContactUs> {
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.center, // Center the image
                 child: Image.asset(
-                  'Images/contactus.png',
+                  'assets/images/contactus.png',
                   width: 206, // Set the image width
                   height: 206, // Set the image height
                   fit: BoxFit.contain, // Maintain aspect ratio without cropping
@@ -77,7 +77,7 @@ class _ContactUsState extends State<ContactUs> {
                       },
                       child: Image(
                         image: AssetImage(
-                            'icon/mail.png'), // Replace with your image path
+                            'assets/icon/mail.png'), // Replace with your image path
                         width: 50, // Adjust width as needed
                         height: 50, // Adjust height as needed
                       ),

@@ -41,7 +41,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   padding: EdgeInsets.only(
                       bottom: 8.0, left: 16.0, right: 16.0), // Add padding
                   child: Image.asset(
-                    'images/header.png',
+                    'assets/images/header.png',
                     height: 60, // Set the height of the image
                     width: 220, // Set the width of the image
                     fit: BoxFit.cover, // Adjust this as necessary
@@ -51,7 +51,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/housebold.png'), // Custom icon image for Home
+                AssetImage('assets/icon/housebold.png'), // Custom icon image for Home
                 size: 24, // Icon size
                 color: Color(0xFF5E5EEA), // Icon color
               ),
@@ -68,7 +68,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/referarrow.png'), // Custom icon image for Refer & Earn
+                    'assets/icon/referarrow.png'), // Custom icon image for Refer & Earn
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -84,7 +84,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/walletup.png'), // Custom icon image for Wallet
+                AssetImage('assets/icon/walletup.png'), // Custom icon image for Wallet
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -109,7 +109,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/calendar-days.png'), // Custom icon image for Calendar
+                    'assets/icon/calendar-days.png'), // Custom icon image for Calendar
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -125,7 +125,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/chalkboard-user.png'),
+                AssetImage('assets/icon/chalkboard-user.png'),
                 size: 24,
                 color: Colors.black,
               ),
@@ -149,7 +149,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/play.png'), // Custom icon image for Courses
+                AssetImage('assets/icon/play.png'), // Custom icon image for Courses
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -181,7 +181,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             // ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/choose.png'), // Custom icon image for MCQ
+                AssetImage('assets/icon/choose.png'), // Custom icon image for MCQ
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -197,7 +197,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/images-user.png'), // Custom icon image for DPP
+                AssetImage('assets/icon/images-user.png'), // Custom icon image for DPP
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -213,7 +213,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/web-test.png'), // Custom icon image for Tests
+                AssetImage('assets/icon/web-test.png'), // Custom icon image for Tests
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -230,7 +230,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/journal-alt.png'), // Custom icon image for Notes
+                    'assets/icon/journal-alt.png'), // Custom icon image for Notes
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -247,7 +247,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/book-open-cover.png'), // Custom icon image for Books
+                    'assets/icon/book-open-cover.png'), // Custom icon image for Books
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -263,7 +263,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('icon/info.png'), // Custom icon image for About Us
+                AssetImage('assets/icon/info.png'), // Custom icon image for About Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -288,7 +288,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/compliance-document.png'), // Custom icon image for Privacy Policy
+                    'assets/icon/compliance-document.png'), // Custom icon image for Privacy Policy
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -313,7 +313,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/condition.png'), // Custom icon image for Terms & Conditions
+                    'assets/icon/condition.png'), // Custom icon image for Terms & Conditions
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -338,7 +338,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/messages-question.png'), // Custom icon image for FAQs
+                    'assets/icon/messages-question.png'), // Custom icon image for FAQs
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -355,7 +355,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/feedback-review.png'), // Custom icon image for Follow Us
+                    'assets/icon/feedback-review.png'), // Custom icon image for Follow Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -372,7 +372,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'icon/followcollection.png'), // Custom icon image for Follow Us
+                    'assets/icon/followcollection.png'), // Custom icon image for Follow Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),

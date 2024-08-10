@@ -2,17 +2,12 @@ import 'package:edyon/splash1.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'Course_Pages/Course.dart';
 import 'Instructor.dart';
 import 'Unitle_pages/bottom_navbar.dart';
 import 'Unitle_pages/side_menubar.dart';
 import 'Unitle_pages/top_navbar.dart';
-import 'wallet.dart';
-import 'terms_page.dart';
-import 'privacy_policy.dart';
-import 'About_us.dart';
 
 class Navbar extends StatefulWidget {
   @override

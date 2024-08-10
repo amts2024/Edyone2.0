@@ -8,7 +8,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       leading: Builder(
         builder: (context) => IconButton(
           icon: ImageIcon(
-            AssetImage('icon/Category.png'),
+            AssetImage('assets/icon/Category.png'),
             color: Color(0xFF454545),
           ),
           onPressed: () {
@@ -19,7 +19,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
           icon: ImageIcon(
-            AssetImage('icon/shop_cart.png'),
+            AssetImage('assets/icon/shop_cart.png'),
             color: Color(0xFF454545),
           ),
           onPressed: () {
@@ -28,7 +28,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: ImageIcon(
-            AssetImage('icon/bell.png'),
+            AssetImage('assets/icon/bell.png'),
             color: Color(0xFF454545),
           ),
           onPressed: () {
@@ -37,7 +37,7 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: ImageIcon(
-            AssetImage('icon/profile.png'),
+            AssetImage('assets/icon/profile.png'),
             color: Color(0xFF454545),
           ),
           onPressed: () {

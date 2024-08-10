@@ -166,7 +166,7 @@ class _RegisterOTPState extends State<ForgotPass> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'images/flag.png',
+                        'assets/images/flag.png',
                         height: 30,
                         width: 30,
                       ),

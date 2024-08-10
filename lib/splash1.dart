@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg.png'), // Path to your background image
+            image: AssetImage('assets/images/bg.png'), // Path to your background image
             fit: BoxFit.cover,
           ),
         ),
@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
             // Centered ImageView (id: imageView)
             Center(
               child: Image.asset(
-                'images/dd.png', // Make sure the image is in the assets folder
+                'assets/images/dd.png', // Make sure the image is in the assets folder
                 width: 190.83,
                 height: 155.31,
               ),
@@ -76,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       SizedBox(width: 10), // Space between the text and images
                       Image.asset(
-                        'images/red.png', // Ensure this asset is available
+                        'assets/images/red.png', // Ensure this asset is available
                         width: 21,
                         height: 21,
                       ),
@@ -91,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       SizedBox(width: 10),
                       Image.asset(
-                        'images/flag.png', // Ensure this asset is available
+                        'assets/images/flag.png', // Ensure this asset is available
                         width: 21,
                         height: 21,
                       ),
