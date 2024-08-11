@@ -2,7 +2,10 @@ import 'package:edyon/splash1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'About_us.dart';
 import 'Navbar.dart';
+
 import 'User_auth/signin_page.dart'; // Import SignInPage
 
 void main() {
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MainPage(),
         '/login': (context) => SignInPage(), // Add the CheckAuth route
-        '/home': (context) => Navbar(), // Home or Dashboard
+
         // Login screen
       },
     );

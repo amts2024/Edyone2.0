@@ -7,6 +7,7 @@ import '../Instructor.dart';
 import '../privacy_policy.dart';
 import '../terms_page.dart';
 import '../wallet.dart';
+import 'logout_popup.dart';
 
 class SideMenuBar extends StatefulWidget {
   final Function(int) onItemTapped;
@@ -41,7 +42,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   padding: EdgeInsets.only(
                       bottom: 8.0, left: 16.0, right: 16.0), // Add padding
                   child: Image.asset(
-                    'assets/images/header.png',
+                    'images/header.png',
                     height: 60, // Set the height of the image
                     width: 220, // Set the width of the image
                     fit: BoxFit.cover, // Adjust this as necessary
@@ -51,7 +52,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/housebold.png'), // Custom icon image for Home
+                AssetImage('icon/housebold.png'), // Custom icon image for Home
                 size: 24, // Icon size
                 color: Color(0xFF5E5EEA), // Icon color
               ),
@@ -68,7 +69,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/referarrow.png'), // Custom icon image for Refer & Earn
+                    'icon/referarrow.png'), // Custom icon image for Refer & Earn
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -84,7 +85,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/walletup.png'), // Custom icon image for Wallet
+                AssetImage('icon/walletup.png'), // Custom icon image for Wallet
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -109,7 +110,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/calendar-days.png'), // Custom icon image for Calendar
+                    'icon/calendar-days.png'), // Custom icon image for Calendar
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -125,7 +126,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/chalkboard-user.png'),
+                AssetImage('icon/chalkboard-user.png'),
                 size: 24,
                 color: Colors.black,
               ),
@@ -149,7 +150,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/play.png'), // Custom icon image for Courses
+                AssetImage('icon/play.png'), // Custom icon image for Courses
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -181,7 +182,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             // ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/choose.png'), // Custom icon image for MCQ
+                AssetImage('icon/choose.png'), // Custom icon image for MCQ
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -197,7 +198,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/images-user.png'), // Custom icon image for DPP
+                AssetImage('icon/images-user.png'), // Custom icon image for DPP
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -213,7 +214,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/web-test.png'), // Custom icon image for Tests
+                AssetImage('icon/web-test.png'), // Custom icon image for Tests
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -230,7 +231,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/journal-alt.png'), // Custom icon image for Notes
+                    'icon/journal-alt.png'), // Custom icon image for Notes
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -247,7 +248,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/book-open-cover.png'), // Custom icon image for Books
+                    'icon/book-open-cover.png'), // Custom icon image for Books
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -263,7 +264,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ),
             ListTile(
               leading: ImageIcon(
-                AssetImage('assets/icon/info.png'), // Custom icon image for About Us
+                AssetImage('icon/info.png'), // Custom icon image for About Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -288,7 +289,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/compliance-document.png'), // Custom icon image for Privacy Policy
+                    'icon/compliance-document.png'), // Custom icon image for Privacy Policy
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -313,7 +314,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/condition.png'), // Custom icon image for Terms & Conditions
+                    'icon/condition.png'), // Custom icon image for Terms & Conditions
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -338,7 +339,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/messages-question.png'), // Custom icon image for FAQs
+                    'icon/messages-question.png'), // Custom icon image for FAQs
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -355,7 +356,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/feedback-review.png'), // Custom icon image for Follow Us
+                    'icon/feedback-review.png'), // Custom icon image for Follow Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -372,7 +373,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
             ListTile(
               leading: ImageIcon(
                 AssetImage(
-                    'assets/icon/followcollection.png'), // Custom icon image for Follow Us
+                    'icon/followcollection.png'), // Custom icon image for Follow Us
                 size: 24, // Icon size
                 color: Colors.black, // Icon color
               ),
@@ -402,13 +403,13 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   color: Color(0xFF696969),
                 ),
               ),
-              onTap: () async {
-                // Clear the user data from SharedPreferences
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.clear();
-
-                // Navigate to the SignInPage
-                Navigator.of(context).pushReplacementNamed('/login');
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LogoutPopup(); // Show the logout popup
+                  },
+                );
               },
             ),
           ],

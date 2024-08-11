@@ -53,8 +53,8 @@ class BottomNavbar extends StatelessWidget {
             _buildNavItem(
               context,
               3,
-              'icon/books.png',
               'icon/booksbold.png',
+              'icon/books.png',
               'Batch',
             ),
             _buildNavItem(
@@ -72,6 +72,17 @@ class BottomNavbar extends StatelessWidget {
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
           showSelectedLabels: true,
+          type: BottomNavigationBarType.fixed, // Prevents shifting of icons
+          selectedLabelStyle: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 10.0,
+            fontWeight: FontWeight.w400,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 10.0,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );
@@ -87,10 +98,10 @@ class BottomNavbar extends StatelessWidget {
     final bool isSelected = selectedIndex == index;
     return BottomNavigationBarItem(
       icon: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(0.0),
         child: Image.asset(
           isSelected ? filledIconPath : outlineIconPath,
-          width: 24,
+          width: 24, // Explicit size set to avoid changes
           height: 24,
           color: isSelected ? Color(0xFF5E5EEA) : Colors.grey,
         ),

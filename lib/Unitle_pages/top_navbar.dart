@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
+class TopNavbar extends StatefulWidget implements PreferredSizeWidget {
+  @override
+  _TopNavbarState createState() => _TopNavbarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _TopNavbarState extends State<TopNavbar> {
+  String? name;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadName();
+  }
+
+  Future<void> _loadName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('My App'),
+      title: Text(
+        name ?? 'Name',
+        style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: Color(0xff060302)),
+      ), // Display the user's name or 'Name' if not yet loaded
       leading: Builder(
         builder: (context) => IconButton(
           icon: ImageIcon(
@@ -47,7 +77,4 @@ class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

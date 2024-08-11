@@ -94,8 +94,18 @@ class _SignInPageState extends State<SignInPage> {
         var responseBody = jsonDecode(response.body);
         String token = responseBody['token'];
 
+        var userData = responseBody['data'];
+        int userId = userData['user_id'];
+        String name = userData['name'];
+        String email = userData['email'];
+        String mobile = userData['mobile'];
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setInt('user_id', userId);
+        await prefs.setString('name', name);
+        await prefs.setString('email', email);
+        await prefs.setString('mobile', mobile);
 
         Navigator.pushReplacement(
           context,

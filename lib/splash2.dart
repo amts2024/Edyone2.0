@@ -94,10 +94,10 @@ class _SplashScreensState extends State<SplashScreens> {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 17,
             ),
             Positioned(
-              bottom: 180,
+              bottom: 177,
               left: 0,
               right: 0,
               child: Center(

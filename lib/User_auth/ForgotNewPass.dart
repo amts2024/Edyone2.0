@@ -1,6 +1,5 @@
-import 'package:edyon/User_auth/signin_page.dart';
 import 'package:flutter/material.dart';
-// Import the SignInPage
+import 'package:edyon/User_auth/signin_page.dart';
 
 class ForgotNewPass extends StatefulWidget {
   const ForgotNewPass({Key? key}) : super(key: key);
@@ -14,6 +13,8 @@ class _ResetpwdState extends State<ForgotNewPass> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   String? _errorMessage;
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   @override
   void dispose() {
@@ -89,9 +90,6 @@ class _ResetpwdState extends State<ForgotNewPass> {
     return true; // Simulate successful API response
   }
 
-  bool _passwordVisible = false;
-  bool _confirmPasswordVisible = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +117,6 @@ class _ResetpwdState extends State<ForgotNewPass> {
               ),
             ),
             const SizedBox(height: 8),
-            // Password Input
             TextField(
               controller: _passwordController,
               obscureText: !_passwordVisible,
@@ -145,7 +142,6 @@ class _ResetpwdState extends State<ForgotNewPass> {
               ),
             ),
             const SizedBox(height: 10),
-            // Confirm Password Input
             TextField(
               controller: _confirmPasswordController,
               obscureText: !_confirmPasswordVisible,
