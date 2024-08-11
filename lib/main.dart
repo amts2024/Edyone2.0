@@ -1,3 +1,4 @@
+import 'package:edyon/Profile/MyProfile.dart';
 import 'package:edyon/splash1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => MainPage(),
-        '/login': (context) => SignInPage(), // Add the CheckAuth route
+        '/': (context) => MyProfile(),
+        '/login': (context) => MyProfile(), // Add the CheckAuth route
 
         // Login screen
       },
