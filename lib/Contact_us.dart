@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Unitle_pages/Contactus_form.dart';
+
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key});
 
@@ -424,109 +426,7 @@ class _ContactUsState extends State<ContactUs> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 11, left: 10, right: 10),
-                constraints: BoxConstraints(
-                  maxHeight: 40,
-                  maxWidth: 388,
-                ),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xFFADADAD)),
-                  ),
-                ),
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Enter Subject',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            height:
-                                1.5, // This corresponds to line height 24px (24/16 = 1.5)
-                            color: Color(0xFFADADAD),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 11,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 11, left: 10, right: 10),
-                constraints: BoxConstraints(
-                  maxHeight: 72,
-                  maxWidth: 388,
-                ),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xFFADADAD)),
-                  ),
-                ),
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Enter Description',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            height:
-                                1.5, // This corresponds to line height 24px (24/16 = 1.5)
-                            color: Color(0xFFADADAD),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                child: Container(
-                  width: 335,
-                  height: 60,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  margin: const EdgeInsets.only(top: 0),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(6),
-                      topRight: Radius.circular(6),
-                      bottomLeft: Radius.circular(6),
-                      bottomRight: Radius.circular(6),
-                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
+              Contactusform(),
               SizedBox(
                 height: 40,
               )

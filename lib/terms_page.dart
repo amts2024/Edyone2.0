@@ -80,7 +80,7 @@ class _PrivacyState extends State<TermsAndConditions> {
                             ),
                             const SizedBox(width: 8),
                             const Text(
-                              'Privacy Policy',
+                              'Terms and Conditions ',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,

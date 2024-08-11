@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
+import 'Contact_us.dart';
 import 'Navbar.dart';
 
 import 'User_auth/signin_page.dart'; // Import SignInPage
@@ -35,14 +36,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => MyProfile(),
-        '/login': (context) => MyProfile(), // Add the CheckAuth route
+        '/': (context) => MainPage(),
+        '/login': (context) => SignInPage(), // Add the CheckAuth route
 
         // Login screen
       },
     );
   }
 }
+//My
 
 class CheckAuth extends StatelessWidget {
   @override
