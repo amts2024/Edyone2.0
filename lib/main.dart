@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'About_us.dart';
 import 'Contact_us.dart';
+import 'Course_Pages/Course.dart';
 import 'Navbar.dart';
 
 import 'User_auth/signin_page.dart'; // Import SignInPage
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MainPage(),
-        '/login': (context) => SignInPage(), // Add the CheckAuth route
+        '/login': (context) => MainPage(), // Add the CheckAuth route
 
         // Login screen
       },

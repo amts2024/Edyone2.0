@@ -1,5 +1,6 @@
-import 'package:carousel_slider/carousel_controller.dart' as slider;
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class CoursesScreen extends StatefulWidget {
   @override
@@ -9,9 +10,75 @@ class CoursesScreen extends StatefulWidget {
 class _CoursesScreenState extends State<CoursesScreen> {
   String? _selectedClass;
   String? _selectedSubject;
+  List<Course> _courses = [];
+  bool _isLoading = true;
+  String _errorMessage = '';
 
-  final List<String> _classes = ['Class 1', 'Class 2', 'Class 3'];
+  final List<String> _classes = [
+    'Class 1',
+    'Class 2',
+    'Class 3',
+    '4th',
+    '5th',
+    '6th',
+    '7th',
+    '8th',
+    '9th',
+    '10th',
+    '11th',
+    '12th'
+  ];
   final List<String> _subjects = ['Math', 'Science', 'History'];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCourses(); // Fetch courses initially
+  }
+
+  Future<void> _fetchCourses() async {
+    final url = 'https://admin.edyone.site/api/course/get-list';
+    final headers = {
+      'Authorization': 'Bearer lPpIG4JNsrzakZtGlcxgjiglFVfeWMg8LIX2ydPO',
+      'Content-Type': 'application/json'
+    };
+
+    // Prepare request body with selected filters
+    final body = jsonEncode(
+        {'class': _selectedClass, 'subject': _selectedSubject, 'per_page': 5});
+
+    try {
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      // Debugging: Print the response status and body
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final courseData = data['data'] as List? ?? [];
+        final courses = courseData
+            .map((courseJson) => Course.fromJson(courseJson))
+            .toList();
+
+        setState(() {
+          _courses = courses;
+          _isLoading = false;
+          _errorMessage = ''; // Clear error message on success
+        });
+      } else {
+        throw Exception('No Course Avilable');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        _courses = []; // Clear courses on error
+        _isLoading = false;
+        _errorMessage = 'No Course Avilable';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +96,9 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                  const SizedBox(
-                      width: 8), // Optional spacing between icon and text
+                  const SizedBox(width: 8),
                   const Text(
-                    'Courses', // The text you want to display next to the icon
+                    'Courses',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
@@ -42,35 +108,28 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   ),
                 ],
               ),
-              // Class Dropdown Button
               SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceBetween, // Align buttons with space between
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Class Dropdown Button
                   Flexible(
                     child: Container(
-                      height: 40, // Fixed height
+                      height: 40,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5), // Radius 5px
+                        borderRadius: BorderRadius.circular(5),
                         gradient: LinearGradient(
-                          colors: [
-                            Color(0xFFA10048),
-                            Color(0xFF2300FF)
-                          ], // Gradient colors
+                          colors: [Color(0xFFA10048), Color(0xFF2300FF)],
                           stops: [0.0, 1.0],
                         ),
                       ),
                       child: Container(
-                        margin: EdgeInsets.all(1), // Border effect
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              13, 8, 13, 8), // Padding (13px, 8px, 13px, 8px)
+                          padding: EdgeInsets.fromLTRB(13, 8, 13, 8),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               isExpanded: true,
@@ -79,6 +138,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _selectedClass = newValue;
+                                  _isLoading = true;
+                                  _fetchCourses(); // Fetch courses again when class changes
                                 });
                               },
                               items: _classes.map((classItem) {
@@ -93,30 +154,25 @@ class _CoursesScreenState extends State<CoursesScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16), // Space between dropdowns
-                  // Subject Dropdown Button
+                  SizedBox(width: 16),
                   Flexible(
                     child: Container(
-                      height: 40, // Fixed height
+                      height: 40,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5), // Radius 5px
+                        borderRadius: BorderRadius.circular(5),
                         gradient: LinearGradient(
-                          colors: [
-                            Color(0xFFA10048),
-                            Color(0xFF2300FF)
-                          ], // Gradient colors
+                          colors: [Color(0xFFA10048), Color(0xFF2300FF)],
                           stops: [0.0, 1.0],
                         ),
                       ),
                       child: Container(
-                        margin: EdgeInsets.all(1), // Border effect
+                        margin: EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              13, 8, 13, 8), // Padding (13px, 8px, 13px, 8px)
+                          padding: EdgeInsets.fromLTRB(13, 8, 13, 8),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               isExpanded: true,
@@ -125,6 +181,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _selectedSubject = newValue;
+                                  _isLoading = true;
+                                  _fetchCourses(); // Fetch courses again when subject changes
                                 });
                               },
                               items: _subjects.map((subjectItem) {
@@ -141,614 +199,578 @@ class _CoursesScreenState extends State<CoursesScreen> {
                   ),
                 ],
               ),
-
-              // Subject Dropdown Button
-
-              // New Container
               SizedBox(height: 16),
-              Positioned(
-                top: 67, // Top position for the new container
-                left: 20, // Left position for the new container
-                child: Container(
-                  width: 388, // Fixed width
-                  height: 558, // Fixed height
-                  padding: EdgeInsets.fromLTRB(0, 16, 0, 0), // Padding
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4), // Border radius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black
-                            .withOpacity(0.1), // Shadow color with 10% opacity
-                        offset: Offset(0, 4), // Shadow position (X: 0, Y: 4)
-                        blurRadius: 10, // Shadow blur
-                        spreadRadius: 0, // Shadow spread
-                      ),
-                    ],
+              _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _errorMessage.isNotEmpty
+                      ? Center(child: Text(_errorMessage))
+                      : _courses.isEmpty
+                          ? Center(child: Text('No courses available'))
+                          : Column(
+                              children: _courses
+                                  .map((course) => CourseCard(course: course))
+                                  .toList(),
+                            ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Course {
+  final int id;
+  final String name;
+  final String? courseImage;
+  final String language;
+  final String courseClass;
+  final String description;
+  final String durationInHours;
+  final int totalChapters;
+  final String courseRating;
+  final int courseTotalRating;
+  final String teacherName;
+  final String teacherImage;
+  final String teacherRating;
+  final int teacherTotalRating;
+  final String price;
+
+  Course({
+    required this.id,
+    required this.name,
+    this.courseImage,
+    required this.language,
+    required this.courseClass,
+    required this.description,
+    required this.durationInHours,
+    required this.totalChapters,
+    required this.courseRating,
+    required this.courseTotalRating,
+    required this.teacherName,
+    required this.teacherImage,
+    required this.teacherRating,
+    required this.teacherTotalRating,
+    required this.price,
+  });
+
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      id: json['course_id'],
+      name: json['name'],
+      courseImage: json['course_image'],
+      language: json['language'],
+      courseClass: json['class'],
+      description: json['description'],
+      durationInHours: json['duration_in_hours'],
+      totalChapters: json['total_chapters'],
+      courseRating: json['course_rating'],
+      courseTotalRating: json['course_total_rating'],
+      teacherName: json['teacher_name'],
+      teacherImage: json['teacher_image'],
+      teacherRating: json['teacher_rating'],
+      teacherTotalRating: json['teacher_total_rating'],
+      price: json['price'],
+    );
+  }
+}
+
+class CourseCard extends StatelessWidget {
+  final Course course;
+
+  CourseCard({required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    // Convert course rating to a number (e.g., 4.5 stars)
+    final rating = double.tryParse(course.teacherRating) ?? 0.0;
+    final fullStars = rating.floor();
+    final hasHalfStar = rating - fullStars >= 0.5;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: Offset(0, 4),
+            blurRadius: 10,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            height: 245,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              image: DecorationImage(
+                image: course.courseImage != null
+                    ? NetworkImage(course.courseImage!)
+                    : AssetImage('assets/images/courses.png') as ImageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            course.name,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              color: Color(0xFF494949),
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            course.description,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: Color(0xFF818181),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ), // Small gap between the second and third text widgets
+          Container(
+            width: double.infinity, // Fixed width for the layout container
+            height: 17, // Fixed height for the layout container
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween, // Space between items
+              children: [
+                Container(
+                  width: 99, // Fixed width for the third text
+                  height: 17, // Fixed height for the third text
+                  child: Text(
+                    'Total Chapters', // Third text content
+                    style: TextStyle(
+                      fontFamily: 'DM Sans', // Use the DM Sans font
+                      fontWeight: FontWeight.w700, // Font weight 700
+                      fontSize: 14, // Font size 14px
+                      height: 16.8 /
+                          14, // Line height, calculated based on font size
+                      color: Color(0xFF002ED2), // Text color
+                    ),
                   ),
+                ),
+                Container(
+                  width: 17, // Fixed width for the number
+                  height: 17,
+                  padding: EdgeInsets.fromLTRB(
+                      0, 0, 0, 0), // Fixed height for the number
+                  child: Text(
+                    course.totalChapters.toString(), // Number text content
+                    style: TextStyle(
+                      fontFamily: 'DM Sans', // Use the DM Sans font
+                      fontWeight: FontWeight.w700, // Font weight 700
+                      fontSize: 14, // Font size 14px
+                      height: 16.8 /
+                          14, // Line height, calculated based on font size
+                      color: Color(0xFF002ED2), // Text color
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          SizedBox(
+              height:
+                  10), // Small gap between the second and third text widgets
+          Container(
+            width: double.infinity, // Fixed width for the layout container
+            height: 30, // Fixed height for the layout container
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0), // Padding
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Color(0xFFEDEDED),
+                  width: 0.5,
+                ),
+                bottom: BorderSide(
+                  color: Color(0xFFEDEDED),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 99, // Fixed width for the text
+                  height: 17,
+                  // Fixed height for the text
+                  child: Text(
+                    'Course Rating', // Text content
+                    style: TextStyle(
+                      fontFamily: 'DM Sans', // Use the DM Sans font
+                      fontWeight: FontWeight.w500, // Font weight 700
+                      fontSize: 15, // Font size 14px
+                      height: 16.8 /
+                          14, // Line height, calculated based on font size
+                      color: Color(0xFF494949), // Text color
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    for (var i = 0; i < 5; i++)
+                      Icon(
+                        i < fullStars
+                            ? Icons.star
+                            : (hasHalfStar && i == fullStars
+                                ? Icons.star_half
+                                : Icons.star_border),
+                        color: Colors.orange,
+                        size: 14,
+                      ),
+                    SizedBox(width: 5),
+                    Text(
+                      '${course.courseRating} (${course.courseRating})',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: Color(0xFF494949),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(
+              height: 4), // Small gap between the second and third text widgets
+          Container(
+            width: double.infinity, // Fixed width for the layout container
+            height: 30, // Fixed height for the layout container
+            // Padding
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 96, // Fixed width for the text
+                  height: 17, // Fixed height for the text
+                  child: Row(
                     children: [
-                      Container(
-                        width: double.infinity, // Full width
-                        height: 245, // Fixed height
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(4), // Border radius
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'images/image.jpg'), // Image asset path
-                            alignment:
-                                Alignment.topCenter, // Align image to the top
-                          ),
-                        ),
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
                       ),
-                      SizedBox(height: 16), // Gap between the image and text
-                      Container(
-                        width: 211, // Fixed width for the first text
-                        height: 19, // Fixed height for the first text
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Text(
-                          'Mathematics', // First text content
-                          style: TextStyle(
-                            fontFamily: 'Poppins', // Use the Poppins font
-                            fontWeight: FontWeight.w600, // Font weight 600
-                            fontSize: 16, // Font size 16px
-                            height: 19.2 /
-                                16, // Line height, calculated based on font size
-                            letterSpacing: 0.01 *
-                                16, // 1% letter spacing, calculated based on font size
-                            color: Color(0xFF494949), // Text color
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          height: 4), // Small gap between the two text widgets
-                      Container(
-                        width: 250, // Fixed width for the second text
-                        height: 17, // Fixed height for the second text
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Text(
-                          'Complete NCERT Hindi Class 5', // Second text content
-                          style: TextStyle(
-                            fontFamily: 'Poppins', // Use the Poppins font
-                            fontWeight: FontWeight.w400, // Font weight 400
-                            fontSize: 14, // Font size 14px
-                            height: 16.8 /
-                                14, // Line height, calculated based on font size
-                            color: Color(0xFF818181), // Text color
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          height:
-                              10), // Small gap between the second and third text widgets
-                      Container(
-                        width: double
-                            .infinity, // Fixed width for the layout container
-                        height: 17, // Fixed height for the layout container
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Space between items
-                          children: [
-                            Container(
-                              width: 99, // Fixed width for the third text
-                              height: 17, // Fixed height for the third text
-                              child: Text(
-                                'Total Chapters', // Third text content
-                                style: TextStyle(
-                                  fontFamily: 'DM Sans', // Use the DM Sans font
-                                  fontWeight:
-                                      FontWeight.w700, // Font weight 700
-                                  fontSize: 14, // Font size 14px
-                                  height: 16.8 /
-                                      14, // Line height, calculated based on font size
-                                  color: Color(0xFF002ED2), // Text color
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 17, // Fixed width for the number
-                              height: 17,
-                              padding: EdgeInsets.fromLTRB(
-                                  0, 0, 0, 0), // Fixed height for the number
-                              child: Text(
-                                '25', // Number text content
-                                style: TextStyle(
-                                  fontFamily: 'DM Sans', // Use the DM Sans font
-                                  fontWeight:
-                                      FontWeight.w700, // Font weight 700
-                                  fontSize: 14, // Font size 14px
-                                  height: 16.8 /
-                                      14, // Line height, calculated based on font size
-                                  color: Color(0xFF002ED2), // Text color
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                          height:
-                              10), // Small gap between the second and third text widgets
-                      Container(
-                        width: double
-                            .infinity, // Fixed width for the layout container
-                        height: 30, // Fixed height for the layout container
-                        margin: EdgeInsets.fromLTRB(16, 0, 16, 0), // Padding
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: Color(0xFFEDEDED),
-                              width: 0.5,
-                            ),
-                            bottom: BorderSide(
-                              color: Color(0xFFEDEDED),
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 99, // Fixed width for the text
-                              height: 17,
-                              // Fixed height for the text
-                              child: Text(
-                                'Course Rating', // Text content
-                                style: TextStyle(
-                                  fontFamily: 'DM Sans', // Use the DM Sans font
-                                  fontWeight:
-                                      FontWeight.w500, // Font weight 700
-                                  fontSize: 15, // Font size 14px
-                                  height: 16.8 /
-                                      14, // Line height, calculated based on font size
-                                  color: Color(0xFF494949), // Text color
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                // Full stars
-                                for (var i = 0; i < 4; i++)
-                                  Icon(
-                                    Icons.star, // Star icon
-                                    color: Colors.orange, // Star icon color
-                                    size: 14, // Star icon size
-                                  ),
-                                // Half-colored star
-                                Stack(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      size: 14,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                    width:
-                                        5), // Space between stars and rating text
-                                Text(
-                                  '4.0 (2000)', // Rating and review count
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    height: 16.8 / 14,
-                                    color: Color(0xFF494949), // Text color
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                          height:
-                              4), // Small gap between the second and third text widgets
-                      Container(
-                        width: double
-                            .infinity, // Fixed width for the layout container
-                        height: 30, // Fixed height for the layout container
-                        // Padding
-                        padding: EdgeInsets.fromLTRB(12, 0, 16, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 96, // Fixed width for the text
-                              height: 17, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 4), // Space between image and text
-                                  Text(
-                                    'Live Classes', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 128, // Fixed width for the text
-                              height: 16, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 4), // Space between image and text
-                                  Text(
-                                    'Recorded Classes', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 91, // Fixed width for the text
-                              height: 16, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 4), // Space between image and text
-                                  Text(
-                                    'Mock Tests', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double
-                            .infinity, // Fixed width for the layout container
-                        height: 30, // Fixed height for the layout container
-                        margin: EdgeInsets.fromLTRB(12, 0, 16, 0), // Padding
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Color(0xFFEDEDED),
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 96, // Fixed width for the text
-                              height: 16, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 4), // Space between image and text
-                                  Text(
-                                    'DPP Sheets', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 128, // Fixed width for the text
-                              height: 16, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 4), // Space between image and text
-                                  Text(
-                                    'Notes', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 91, // Fixed width for the text
-                              height: 16, // Fixed height for the text
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/courseicon.png', // Image asset path
-                                    width: 16, // Image width
-                                    height: 16, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 8), // Space between image and text
-                                  Text(
-                                    'MCQs', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 500
-                                      fontSize: 12, // Font size 10px
-                                      height: 16.8 /
-                                          10, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(
-                          height:
-                              20), // Small gap between the second and third text widgets
-                      Container(
-                        width: double
-                            .infinity, // Fixed width for the layout container
-                        height: 32, // Fixed height for the layout container
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0), // Padding
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 155, // Fixed width for the text
-                              height: 32,
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'icon/Ellipse.png', // Image asset path
-                                    width: 32, // Image width
-                                    height: 32, // Image height
-                                  ),
-                                  SizedBox(
-                                      width: 8), // Fixed height for the text
-                                  Text(
-                                    'Instructor Name', // Text content
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'DM Sans', // Use the DM Sans font
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight 700
-                                      fontSize: 15, // Font size 14px
-                                      height: 16.8 /
-                                          14, // Line height, calculated based on font size
-                                      color: Color(0xFF494949), // Text color
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                // Full stars
-                                for (var i = 0; i < 4; i++)
-                                  Icon(
-                                    Icons.star, // Star icon
-                                    color: Colors.orange, // Star icon color
-                                    size: 14, // Star icon size
-                                  ),
-                                // Half-colored star
-                                Stack(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.grey.withOpacity(0.5),
-                                      size: 14,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                    width:
-                                        5), // Space between stars and rating text
-                                Text(
-                                  '4.0 (50)', // Rating and review count
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                    height: 16.8 / 14,
-                                    color: Color(0xFF494949), // Text color
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: 10),
-                      Container(
-                        width: double.infinity, // Full width of the parent
-                        height: 48, // Fixed height for the container
-                        padding: EdgeInsets.zero, // Remove any padding
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF3F3F3), // Background color
-                          border: Border.all(
-                            color: Color(0xFFEDEDED), // Border color
-                            width: 0.5, // Border width
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Space between the price label and button
-                          children: [
-                            // Container for price
-                            Container(
-                              width: 62, // Fixed width for the price container
-                              height:
-                                  24, // Fixed height for the price container
-                              margin: EdgeInsets.only(
-                                  left: 16), // Margin from the left side
-                              child: Center(
-                                child: Text(
-                                  '₹ 1200', // Price text
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins', // Font family
-                                    fontWeight:
-                                        FontWeight.w700, // Font weight 700
-                                    fontSize: 20, // Font size 20px
-                                    height: 24 /
-                                        20, // Line height calculated as height/size
-                                    color: Color(0xFF3C3C3C), // Text color
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Container for image
-                            Container(
-                              width: 32, // Fixed width for the image container
-                              height:
-                                  32, // Fixed height for the image container
-                              margin: EdgeInsets.only(
-                                  left: 80), // Margin from the right side
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .white, // Background color of the image container
-                                borderRadius:
-                                    BorderRadius.circular(4), // Border radius
-                                border: Border.all(
-                                  color: Color(0xFF1A21BC), // Border color
-                                  width: 0.5, // Border width
-                                ),
-                              ),
-
-                              child: Image.asset(
-                                'icon/Frame.png', // Path to your image asset
-                                width: 20, // Image width
-                                height: 20, // Image height
-                              ),
-                            ),
-                            // Gradient Button Container
-                            Container(
-                              width:
-                                  100, // Fixed width for the button container
-                              height:
-                                  32, // Fixed height for the button container
-                              margin: EdgeInsets.only(right: 10),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(4), // Border radius
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFA10048),
-                                    Color(0xFF2300FF)
-                                  ], // Gradient colors
-                                  stops: [0.0, 1.0], // Gradient stops
-                                ),
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Add your onPressed code here
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors
-                                      .transparent, // Transparent background
-                                  shadowColor:
-                                      Colors.transparent, // Remove shadow
-                                  elevation: 0, // Remove elevation
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        4), // Border radius
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Button', // Button text
-                                    style: TextStyle(
-                                      fontFamily: 'DM Sans', // Font family
-                                      fontWeight:
-                                          FontWeight.w500, // Font weight
-                                      fontSize: 14, // Font size
-                                      color: Colors.white, // Text color
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      SizedBox(width: 4), // Space between image and text
+                      Text(
+                        'Live Classes', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
                         ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  width: 128, // Fixed width for the text
+                  height: 16, // Fixed height for the text
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
+                      ),
+                      SizedBox(width: 4), // Space between image and text
+                      Text(
+                        'Recorded Classes', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 91, // Fixed width for the text
+                  height: 16, // Fixed height for the text
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
+                      ),
+                      SizedBox(width: 4), // Space between image and text
+                      Text(
+                        'Mock Tests', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity, // Fixed width for the layout container
+            height: 30, // Fixed height for the layout container
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0), // Padding
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFEDEDED),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 96, // Fixed width for the text
+                  height: 16, // Fixed height for the text
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
+                      ),
+                      SizedBox(width: 4), // Space between image and text
+                      Text(
+                        'DPP Sheets', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 128, // Fixed width for the text
+                  height: 16, // Fixed height for the text
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
+                      ),
+                      SizedBox(width: 4), // Space between image and text
+                      Text(
+                        'Notes', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 91, // Fixed width for the text
+                  height: 16, // Fixed height for the text
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/courseicon.png', // Image asset path
+                        width: 16, // Image width
+                        height: 16, // Image height
+                      ),
+                      SizedBox(width: 8), // Space between image and text
+                      Text(
+                        'MCQs', // Text content
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Use the DM Sans font
+                          fontWeight: FontWeight.w500, // Font weight 500
+                          fontSize: 12, // Font size 10px
+                          height: 16.8 /
+                              10, // Line height, calculated based on font size
+                          color: Color(0xFF494949), // Text color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.network(
+                    course.teacherImage,
+                    width: 32,
+                    height: 32,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    course.teacherName,
+                    style: TextStyle(
+                      fontFamily: 'DM Sans',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: Color(0xFF494949),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  for (var i = 0; i < 5; i++)
+                    Icon(
+                      i < fullStars
+                          ? Icons.star
+                          : (hasHalfStar && i == fullStars
+                              ? Icons.star_half
+                              : Icons.star_border),
+                      color: Colors.orange,
+                      size: 14,
+                    ),
+                  SizedBox(width: 5),
+                  Text(
+                    '${course.teacherRating} (${course.teacherTotalRating})',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: Color(0xFF494949),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ),
+          SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            height: 48,
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              color: Color(0xFFF3F3F3),
+              border: Border.all(
+                color: Color(0xFFEDEDED),
+                width: 0.5,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 62,
+                  height: 24,
+                  margin: EdgeInsets.only(left: 16),
+                  child: Center(
+                    child: Text(
+                      course.price,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        color: Color(0xFF3C3C3C),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 32,
+                  height: 32,
+                  margin: EdgeInsets.only(left: 75),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      color: Color(0xFF1A21BC),
+                      width: 0.5,
+                    ),
+                  ),
+                  child: Image.asset(
+                    'icon/Frame.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  height: 32,
+                  margin: EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    gradient: LinearGradient(
+                      colors: [Color(0xFFA10048), Color(0xFF2300FF)],
+                      stops: [0.0, 1.0],
+                    ),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add your onPressed code here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Button',
+                        style: TextStyle(
+                          fontFamily: 'DM Sans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
