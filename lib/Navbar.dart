@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'Course_Pages/Course.dart';
 import 'Instructor.dart';
+import 'Paid_pages/paid_sidebar.dart';
 import 'Unitle_pages/bottom_navbar.dart';
 import 'Unitle_pages/side_menubar.dart';
 import 'Unitle_pages/top_navbar.dart';
@@ -56,10 +57,7 @@ class _NavbarState extends State<Navbar> {
     return Scaffold(
       appBar: TopNavbar(),
       drawer: SideMenuBar(
-        onItemTapped: (index) {
-          _onItemTapped(index);
-          Navigator.pop(context);
-        },
+        onItemTapped: (int) {},
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavbar(
@@ -80,10 +78,10 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController();
 
   final List<String> _bannerImages = [
-    'images/banner.png',
-    'images/banner.png',
-    'images/banner.png',
-    'images/banner.png',
+    'assets/images/banner.png',
+    'assets/images/banner.png',
+    'assets/images/banner.png',
+    'assets/images/banner.png',
   ];
 
   @override

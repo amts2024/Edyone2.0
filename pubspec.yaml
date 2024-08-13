@@ -45,6 +45,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/Paid_page_images/
     - assets/icon/
 
   fonts:

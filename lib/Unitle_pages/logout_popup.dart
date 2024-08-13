@@ -22,7 +22,7 @@ class LogoutPopup extends StatelessWidget {
             const SizedBox(height: 27),
 
             Image.asset(
-              'icon/logout.png', // Path to the custom icon image
+              'assets/icon/logout.png', // Path to the custom icon image
               width: 80, // Icon width
               height: 80, // Icon height
             ),
@@ -78,8 +78,8 @@ class LogoutPopup extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Container(
-                  height: 32,
-                  width: 90,
+                  height: 34,
+                  width: 80,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: <Color>[Color(0xFFA10048), Color(0xFF2300FF)],
