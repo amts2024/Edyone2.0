@@ -1,424 +1,489 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'Instructor.dart';
+import 'package:http/http.dart' as http;
 
 class Details extends StatefulWidget {
+  final int teacherId;
+
+  Details({required this.teacherId});
+
   @override
   _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
+  late Future<Map<String, dynamic>?> _teacherDetail;
+  late Future<List<Map<String, dynamic>>> _reviews;
   bool showTeacherProfile = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _teacherDetail = fetchTeacherDetails(widget.teacherId);
+    _reviews = fetchReviews(widget.teacherId);
+  }
 
+  Future<Map<String, dynamic>?> fetchTeacherDetails(int teacherId) async {
+    final response = await http.post(
+      Uri.parse('https://admin.edyone.site/api/teacher/get-by-id'),
+      headers: {
+        'Authorization': 'Bearer hCSJk41yEtchDa4JH8HLtLVj5hOxDXpq1ycIuggn',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'teacher_id': teacherId}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data is Map<String, dynamic>) {
+        return data['teacher'] ?? data['data'];
+      }
+    } else {
+      throw Exception('Failed to load teacher details');
+    }
+    return null;
+  }
+
+  Future<List<Map<String, dynamic>>> fetchReviews(int teacherId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://admin.edyone.site/api/teacher/review-list'),
+        headers: {
+          'Authorization': 'Bearer hCSJk41yEtchDa4JH8HLtLVj5hOxDXpq1ycIuggn',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'teacher_id': teacherId}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data is Map<String, dynamic> &&
+            data.containsKey('data') &&
+            data['data'] is List) {
+          return List<Map<String, dynamic>>.from(data['data']);
+        } else {
+          return [];
+        }
+      } else {
+        print('Failed to fetch reviews: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-               padding: EdgeInsets.fromLTRB(15, 8, 16, 0),
-
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyWidget()), // Replace YourPage with your desired page
-                      );
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Instructors',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        title: Text('Teacher Details'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: FutureBuilder<Map<String, dynamic>?>(
+        future: _teacherDetail,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            final teacher = snapshot.data;
+            if (teacher != null) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CustomCard(teacher: teacher),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 14),
-            // Add your content here
-            CustomCard(),
-            SizedBox(height: 14),
-            // Add your images here
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/image1.png', // Replace with your image path
-                        width: 40,
-                        height: 40,
-                      ),
-                      SizedBox(height: 8),
-                      Text('4', style: TextStyle(fontSize: 16)), // First text below the image
-                      Text('Courses', style: TextStyle(fontSize: 16)), // Second text below the image
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/imge2.png', // Replace with your image path
-                        width: 40,
-                        height: 40,
-                      ),
-                      SizedBox(height: 8),
-                      Text('5+', style: TextStyle(fontSize: 16)), // First text below the image
-                      Text('Experience', style: TextStyle(fontSize: 16)), // Second text below the image
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/image3.png', // Replace with your image path
-                        width: 40,
-                        height: 40,
-                      ),
-                      SizedBox(height: 8),
-                      Text('4.8', style: TextStyle(fontSize: 16)), // First text below the image
-                      Text('Ratings', style: TextStyle(fontSize: 16)), // Second text below the image
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
-            Divider(
-              color: Colors.grey,
-              thickness: 1,
-              indent: 16,
-              endIndent: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'About ',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Amit Kumar is a highly experienced instructor with over 5 years of teaching Physics. '
-                    'He has a passion for making complex concepts easy to understand and engaging for his students. '
-                    'With 4 courses available and a rating of 4.8, Amit has established himself as a top instructor '
-                    'in the field. He is dedicated to continuous learning and improving his teaching methods to provide '
-                    'the best educational experience for his students.',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        showTeacherProfile = true;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        GradientText(
-                          'Assistant Teachers',
-                          gradient: showTeacherProfile
-                              ? LinearGradient(
-                            colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                          )
-                              : LinearGradient(colors: [Colors.black, Colors.black]),
-                        ),
-                        Container(
-                          height: 4,
-                          width: 180,
-                          decoration: BoxDecoration(
-                            gradient: showTeacherProfile
-                                ? LinearGradient(
-                              colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                            )
-                                : LinearGradient(colors: [Colors.grey, Colors.grey]),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildProfileStat(
+                            context,
+                            'assets/images/image1.png',
+                            '4',
+                            'Courses',
+                            'Courses tapped',
                           ),
-                        ),
-                      ],
+                          _buildProfileStat(
+                            context,
+                            'assets/images/imge2.png',
+                            '${teacher['experience'] ?? 'N/A'}',
+                            'Experience',
+                            'Experience tapped',
+                          ),
+                          _buildProfileStat(
+                            context,
+                            'assets/images/image3.png',
+                            '${teacher['rating'] ?? '0.0'}',
+                            'Ratings',
+                            'Ratings tapped',
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-               SizedBox(width: 6),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        showTeacherProfile = false;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: GradientText(
+                    SizedBox(height: 8),
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildSocialIcon(
+                            'assets/icon/instagram.png',
+                            'Instagram icon tapped',
+                          ),
+                          SizedBox(width: 16.0),
+                          _buildSocialIcon(
+                            'assets/icon/linkedin.png',
+                            'LinkedIn icon tapped',
+                          ),
+                          SizedBox(width: 16.0),
+                          _buildSocialIcon(
+                            'assets/icon/facebook.png',
+                            'Facebook icon tapped',
+                          ),
+                          SizedBox(width: 16.0),
+                          _buildSocialIcon(
+                            'assets/icon/twitter.png',
+                            'Twitter icon tapped',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'About',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        teacher['about']?.replaceAll(RegExp(r'<[^>]*>'), '') ??
+                            'No information available',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildTabButton(
+                            'Teacher Profile',
+                            showTeacherProfile,
+                            () {
+                              setState(() {
+                                showTeacherProfile = true;
+                              });
+                            },
+                          ),
+                          _buildTabButton(
                             'Reviews',
-                            gradient: !showTeacherProfile
-                                ? LinearGradient(
-                              colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                            )
-                                : LinearGradient(colors: [Colors.black, Colors.black]),
+                            !showTeacherProfile,
+                            () {
+                              setState(() {
+                                showTeacherProfile = false;
+                              });
+                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 14.0),
-                          child: Container(
-                            height: 4,
-                            width: 115,
-                            decoration: BoxDecoration(
-                              gradient: !showTeacherProfile
-                                  ? LinearGradient(
-                                colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                              )
-                                  : LinearGradient(colors: [Colors.grey, Colors.grey]),
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 4),
-            // Conditional rendering of GridView
-            if (showTeacherProfile)
-              GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                children: List.generate(
-                  4, // You can adjust this number as needed
-                      (index) => AssistantTeacherCard(),
+                    SizedBox(height: 8),
+                    if (showTeacherProfile)
+                      ProfileView(
+                        profileImage: 'assets/images/profile.png',
+                        teacherImage: 'assets/images/teacher.png',
+                        teacherName: teacher['name'] ?? 'Unknown Teacher',
+                        subjectIcon: 'assets/images/subject.png',
+                        subjectName: teacher['subject'] ?? 'Subject',
+                        courseImage: 'assets/images/courses.png',
+                        courses: '4',
+                      )
+                    else
+                      ReviewsSection(reviewsFuture: _reviews),
+                  ],
                 ),
-              ),
-            SizedBox(height: 4),
-            // Depending on the value of showTeacherProfile, show either AssistantTeacherCard or ReviewsSection
-            showTeacherProfile ? AssistantTeacherCard() : ReviewsSection(),
-          ],
+              );
+            }
+          }
+          return Center(child: Text('No teacher data available.'));
+        },
+      ),
+    );
+  }
+
+  Widget _buildProfileStat(BuildContext context, String iconPath, String value,
+      String label, String snackBarMessage) {
+    return GestureDetector(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(snackBarMessage)),
+        );
+      },
+      child: Column(
+        children: [
+          Image.asset(
+            iconPath,
+            width: 40,
+            height: 40,
+          ),
+          SizedBox(height: 8),
+          Text(value, style: TextStyle(fontSize: 16)),
+          Text(label, style: TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialIcon(String iconPath, String message) {
+    return GestureDetector(
+      onTap: () {
+        print(message);
+      },
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: Image.asset(
+          iconPath,
+          fit: BoxFit.cover,
         ),
       ),
     );
   }
-}
-class CustomCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFA10048).withOpacity(0.10),
-            Color(0xFF2300FF).withOpacity(0.10),
-          ],
-        ),
-      ),
-      child: Row(
+
+  Widget _buildTabButton(String label, bool isSelected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
         children: [
           Container(
-            width: 70,
-            height: 70,
-            margin: EdgeInsets.all(16.0),
+            width: 189,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.fromBorderSide(BorderSide(
-                color: Colors.transparent,
-                width: 2.0,
-                style: BorderStyle.solid,
-              )),
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(161, 0, 72, 1.0),
-                  Color.fromRGBO(35, 0, 255, 1.0),
-                ],
+              color: Colors.white,
+              border: Border(
+                bottom: BorderSide(
+                  color: isSelected ? Colors.transparent : Colors.grey,
+                  width: isSelected ? 3 : 1,
+                ),
               ),
             ),
-            child: Center(
-              child: Image.asset(
-                'assets/Image/profile.png',
-                width: 85,
-                height: 85,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Amit Kumar',
+            child: ShaderMask(
+              shaderCallback: (bounds) => LinearGradient(
+                colors: isSelected
+                    ? [Color(0xFFA10048), Color(0xFF2300FF)]
+                    : [Colors.black, Colors.black],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ).createShader(bounds),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icon/mybook.png',
-                      width: 16,
-                      height: 16,
-
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      'Physics',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF4F4F4F),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8.0),
-                Row(
-                  children: [
-                    CustomSocialIcon(
-                      iconPath: 'assets/icon/instagram.png',
-                    ),
-                    SizedBox(width: 8.0),
-                    CustomSocialIcon(
-                      iconPath: 'assets/icon/twitter.png',
-                    ),
-                    SizedBox(width: 8.0),
-                    CustomSocialIcon(
-                      iconPath: 'assets/icon/linkedin.png',
-                    ),
-                    SizedBox(width: 8.0),
-                    CustomSocialIcon(
-                      iconPath: 'assets/icon/facebook.png',
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
+          if (isSelected)
+            Container(
+              height: 3,
+              width: 189,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFA10048), Color(0xFF2300FF)],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
 
+class CustomCard extends StatelessWidget {
+  final Map<String, dynamic> teacher;
 
-class CustomSocialIcon extends StatelessWidget {
-  final String iconPath;
-
-  const CustomSocialIcon({required this.iconPath});
+  CustomCard({required this.teacher});
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      iconPath,
-      width: 24,
-      height: 24,
-      //color: Colors.black, // Set icon color
+    return Card(
+      elevation: 5,
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(
+                    teacher['Image'] ??
+                        'https://example.com/default_profile_picture.jpg',
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    teacher['name'] ?? 'Unknown Teacher',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text('Qualification: ${teacher['subject'] ?? 'N/A'}'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
+class ProfileView extends StatelessWidget {
+  final String profileImage;
+  final String teacherImage;
+  final String teacherName;
+  final String subjectIcon;
+  final String subjectName;
+  final String courseImage;
+  final String courses;
 
-class AssistantTeacherCard extends StatelessWidget {
+  const ProfileView({
+    required this.profileImage,
+    required this.teacherImage,
+    required this.teacherName,
+    required this.subjectIcon,
+    required this.subjectName,
+    required this.courseImage,
+    required this.courses,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 187.0,
-      width: 190.0,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFFA10048).withOpacity(0.15),
-                Color(0xFF2300FF).withOpacity(0.15),
-              ],
+    return GestureDetector(
+      onTap: () {
+        // Handle profile click
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300, width: 2),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: 8,
+              spreadRadius: 2,
             ),
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 8.0, bottom: 4.0),
-                child: CircleAvatar(
-                  radius: 27.0,
-                  backgroundImage: AssetImage('assets/Image/profile.png'),
-                ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: 120,
+              width: double.infinity,
+              child: CircleAvatar(
+                backgroundImage: AssetImage(profileImage),
+                radius: 60,
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 4.0),
-                child: Text(
-                  'John Doe',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
                 children: [
-                  Image.asset(
-                    'assets/icon/mybook.png', // Path to your custom physics icon
-                    height: 16.0,
-                    width: 16.0,
-                   // color: Color(0xFF4F4F4F), // Color of the icon
-                  ),
-                  SizedBox(width: 4.0),
-                  Text(
-                    'Physics',
-                    style: TextStyle(fontSize: 12.0, color: Color(0xFF4F4F4F)),
-                    textAlign: TextAlign.center,
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        teacherName,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 2.0),
-                child: Divider(
-                  height: 26.0,
-                  thickness: 1.0,
-                  color: Colors.grey,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
                 children: [
                   Image.asset(
-                    'assets/Image/image1.png', // Path to your custom courses icon
-                    height: 16.0,
-                    width: 16.0,
-                   // color: Color(0xFF4F4F4F), // Color of the icon
+                    subjectIcon,
+                    width: 24,
+                    height: 24,
                   ),
-                  SizedBox(width: 4.0),
+                  SizedBox(width: 8),
                   Text(
-                    '6 Courses',
-                    style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                    subjectName,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  Image.asset(
+                    courseImage,
+                    width: 24,
+                    height: 24,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      courses,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -426,54 +491,82 @@ class AssistantTeacherCard extends StatelessWidget {
 }
 
 class ReviewsSection extends StatelessWidget {
+  final Future<List<Map<String, dynamic>>> reviewsFuture;
+
+  ReviewsSection({required this.reviewsFuture});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 0),
-        // Add your reviews here
-        ReviewCard(
-          studentName: 'Alice Johnson',
-          rating: 5,
-          review: 'Amit is a fantastic teacher! His explanations are clear and easy to understand.',
-        ),
-        ReviewCard(
-          studentName: 'Bob Smith',
-          rating: 4,
-          review: 'I have learned so much in Amit\'s class. Highly recommend!',
-        ),
-        ReviewCard(
-          studentName: 'Charlie Brown',
-          rating: 4.5,
-          review: 'Great teaching style and very approachable.',
-        ),
-      ],
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: reviewsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData) {
+          final reviews = snapshot.data!;
+          if (reviews.isEmpty) {
+            return Center(child: Text('No reviews available.'));
+          } else {
+            return Column(
+              children: reviews.map((review) {
+                return ReviewCard(
+                  name: review['user'] ?? 'Anonymous',
+                  date: review['date'] ?? '',
+                  rating: (review['rating'] ?? 0).toDouble(),
+                  review: review['comments'] ?? 'No review text',
+                  profileImageUrl: review['profile_image'] ??
+                      'https://example.com/default_profile_picture.jpg',
+                );
+              }).toList(),
+            );
+          }
+        } else {
+          return Center(child: Text('No reviews found.'));
+        }
+      },
     );
   }
 }
 
-class ReviewCard extends StatelessWidget {
-  final String studentName;
-  final String review;
+class ReviewCard extends StatefulWidget {
+  final String name;
+  final String date;
   final double rating;
+  final String review;
+  final String profileImageUrl;
 
-  const ReviewCard({
-    required this.studentName,
-    required this.review,
+  ReviewCard({
+    required this.name,
+    required this.date,
     required this.rating,
+    required this.review,
+    required this.profileImageUrl,
   });
 
   @override
+  _ReviewCardState createState() => _ReviewCardState();
+}
+
+class _ReviewCardState extends State<ReviewCard> {
+  bool isLiked = false;
+  bool isDisliked = false;
+
+  @override
   Widget build(BuildContext context) {
+    int fullStars = widget.rating.floor();
+    bool hasHalfStar = widget.rating - fullStars >= 0.5;
+    int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
     return Card(
-      elevation: 1,
+      margin: EdgeInsets.all(8.0),
+      elevation: 4.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(12.0),
       ),
-      margin: EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -481,110 +574,173 @@ class ReviewCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage( 'assets/Image/profile.png'), // Replace with user profile image path
-                  radius: 30,
+                  backgroundImage: NetworkImage(widget.profileImageUrl),
+                  radius: 24.0,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 16.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        studentName,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
                       Row(
-                        children: List.generate(
-                          5,
-                              (index) => Icon(
-                            Icons.star,
-                            color: index < rating ? Colors.orange : Colors.grey,
-                            size: 20,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
                           ),
-                        ),
+                          // Replace Icon with PNG image
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/icon/dot-pending.png',
+                                width: 16.0,
+                                height: 16.0,
+                              ),
+                              // Space between dots
+                            ],
+                          ),
+                        ],
                       ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          // Display stars based on rating
+                          Row(
+                            children: List.generate(
+                              fullStars,
+                              (index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 16,
+                              ),
+                            ),
+                          ),
+                          if (hasHalfStar)
+                            Icon(
+                              Icons.star_half,
+                              color: Colors.amber,
+                              size: 16,
+                            ),
+                          if (emptyStars > 0)
+                            Row(
+                              children: List.generate(
+                                emptyStars,
+                                (index) => Icon(
+                                  Icons.star_border,
+                                  color: Colors.amber,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                          SizedBox(width: 4),
+                          Text(
+                            widget.rating.toStringAsFixed(1),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(width: 8), // Space between rating and date
+                          Text(
+                            widget.date,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12),
                     ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            Text(
-              review,
-              style: TextStyle(fontSize: 16),
-            ),
-            Divider(color: Colors.grey),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Was this review helpful?',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '3',
+
+            // Separate container for review, dividers, and like/dislike buttons
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Review text with left margin
+                  Container(
+                    margin: EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      widget.review,
                       style: TextStyle(
-                        color: Colors.red,
+                        fontSize: 14,
+                        color: Colors.black87,
+                        height: 1.5,
                       ),
                     ),
-                    SizedBox(width: 4),
-                    Image.asset(
-                      'assets/icon/unlike.png', // Replace with your own thumb up icon image path
-                      width: 24,
-                      height: 24,
-                      color: Colors.red, // Set icon color
-                    ),
-                    SizedBox(width: 8),
-                    Image.asset(
-                      'assets/icon/like.png', // Replace with your own thumb down icon image path
-                      width: 24,
-                      height: 24,
-                      color: Colors.green, // Set icon color
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      '3',
-                      style: TextStyle(
-                        color: Colors.green,
+                  ),
+                  SizedBox(height: 8), // Space before dividers
+                  Divider(color: Colors.grey[400]),
+                  // Space after dividers
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Was this review helpful?',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.thumb_down,
+                              color: isDisliked ? Colors.red : Colors.grey,
+                              size: 16,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isDisliked = !isDisliked;
+                                if (isLiked && isDisliked) {
+                                  isLiked = false;
+                                }
+                              });
+                            },
+                          ),
+                          SizedBox(
+                              width:
+                                  8), // Space between thumbs-up and thumbs-down buttons
+                          IconButton(
+                            icon: Icon(
+                              Icons.thumb_up,
+                              color: isLiked ? Colors.green : Colors.grey,
+                              size: 16,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isLiked = !isLiked;
+                                if (isLiked && isDisliked) {
+                                  isDisliked = false;
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  // Space before the last divider
+                  Divider(color: Colors.grey[400]),
+                ],
+              ),
             ),
-            Divider(color: Colors.grey),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-
-class GradientText extends StatelessWidget {
-  final String text;
-  final Gradient gradient;
-
-  const GradientText(
-      this.text, {
-        required this.gradient,
-      });
-
-  @override
-  Widget build(BuildContext context) {
-    return ShaderMask(
-      shaderCallback: (bounds) => gradient.createShader(
-        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.white, // This color is only a placeholder
         ),
       ),
     );
