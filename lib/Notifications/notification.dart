@@ -66,6 +66,16 @@ class _NotifyState extends State<Notify> {
                 ),
               ],
             ),
+            trailing: Container(
+              width: 19,
+              height: 19,
+              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+              decoration: BoxDecoration(
+                color: Color(0xFF58ECB7),
+                borderRadius: BorderRadius.circular(50),
+              ),
+
+            ),
             children: [
               Container(
                 width: double.infinity,
@@ -128,6 +138,16 @@ class _NotifyState extends State<Notify> {
                   ),
                 ),
               ],
+            ),
+            trailing: Container(
+              width: 19,
+              height: 19,
+              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+              decoration: BoxDecoration(
+                color: Color(0xFF58ECB7),
+                borderRadius: BorderRadius.circular(50),
+              ),
+
             ),
             children: [
               Container(

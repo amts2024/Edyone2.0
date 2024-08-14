@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
+import 'Address/Address.dart';
 import 'Batches/Batch.dart';
 import 'Course/CourseDetails.dart';
 import 'Course/Features.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => FeaturesScreen(),
+        '/': (context) => Notify(),
         '/login': (context) => BatchScreen(), // Add the CheckAuth route
 
         // Login screen
