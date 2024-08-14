@@ -138,7 +138,10 @@ class _RegisterOTPState extends State<ResetOTP> {
               child: IconButton(
                 icon: const Icon(Icons.arrow_back_ios_sharp),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInPage()),
+                  );
                 },
               ),
             ),

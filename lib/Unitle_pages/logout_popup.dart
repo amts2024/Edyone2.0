@@ -43,35 +43,42 @@ class LogoutPopup extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                  onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.clear();
-
-                    Navigator.of(context).pushReplacementNamed('/login');
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: Colors.grey),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 26, vertical: 8),
+                Container(
+                  height: 34,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
                   ),
-                  child: ShaderMask(
-                    shaderCallback: (rect) => const LinearGradient(
-                      colors: <Color>[Color(0xFFA10048), Color(0xFF2300FF)],
-                      tileMode: TileMode.clamp,
-                    ).createShader(rect),
-                    child: const Text(
-                      'Yes',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
+                  child: TextButton(
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.clear();
+
+                      Navigator.of(context).pushReplacementNamed('/login');
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 26, vertical: 8),
+                    ),
+                    child: ShaderMask(
+                      shaderCallback: (rect) => const LinearGradient(
+                        colors: <Color>[Color(0xFFA10048), Color(0xFF2300FF)],
+                        tileMode: TileMode.clamp,
+                      ).createShader(rect),
+                      child: const Text(
+                        'Yes',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => Navbar(),
-        '/login': (context) => MainPage(), // Add the CheckAuth route
+        '/': (context) => MainPage(),
+        '/login': (context) => SignInPage(), // Add the CheckAuth route
 
         // Login screen
       },
