@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
-import 'Contact_us.dart';
-import 'Course_Pages/Course.dart';
 import 'Navbar.dart';
 
 import 'User_auth/signin_page.dart'; // Import SignInPage
@@ -45,7 +43,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//My
 
 class CheckAuth extends StatelessWidget {
   @override
