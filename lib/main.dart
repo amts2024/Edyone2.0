@@ -12,6 +12,11 @@ import 'Course/Features.dart';
 import 'Navbar.dart';
 
 import 'Notifications/notification.dart';
+import 'Paymment_Page/Add_Bank.dart';
+import 'Paymment_Page/Bank_Details.dart';
+import 'Paymment_Page/Banks_Details.dart';
+import 'Paymment_Page/UPI.dart';
+import 'Paymment_Page/UPI_Details.dart';
 import 'Profile/More_Free.dart';
 import 'Profile/More_Paid.dart';
 import 'User_auth/signin_page.dart'; // Import SignInPage
@@ -42,7 +47,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => Notify(),
+        '/': (context) => UPI_Details(),
         '/login': (context) => BatchScreen(), // Add the CheckAuth route
 
         // Login screen
