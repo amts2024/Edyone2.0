@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-import 'Course_Pages/Course.dart';
+import 'Course/courses.dart';
 import 'Instructor.dart';
 import 'Paid_pages/paid_sidebar.dart';
 import 'Unitle_pages/bottom_navbar.dart';

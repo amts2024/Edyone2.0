@@ -5,20 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
-import 'Address/Address.dart';
-import 'Batches/Batch.dart';
-import 'Course/CourseDetails.dart';
-import 'Course/Features.dart';
 import 'Navbar.dart';
 
-import 'Notifications/notification.dart';
-import 'Paymment_Page/Add_Bank.dart';
-import 'Paymment_Page/Bank_Details.dart';
-import 'Paymment_Page/Banks_Details.dart';
-import 'Paymment_Page/UPI.dart';
-import 'Paymment_Page/UPI_Details.dart';
-import 'Profile/More_Free.dart';
-import 'Profile/More_Paid.dart';
 import 'User_auth/signin_page.dart'; // Import SignInPage
 
 void main() {
@@ -47,8 +35,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => UPI_Details(),
-        '/login': (context) => BatchScreen(), // Add the CheckAuth route
+        '/': (context) => MyProfile(),
+        '/login': (context) => MyProfile(), // Add the CheckAuth route
 
         // Login screen
       },

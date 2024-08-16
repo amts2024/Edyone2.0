@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Modal/Course_model.dart';
+
 class ApiService {
- // final String _baseUrl = 'http://52.66.248.226/api/student/otp-send';
+  // final String _baseUrl = 'http://52.66.248.226/api/student/otp-send';
 
   Future<dynamic> sendOtp(String phoneNumber) async {
     final url = Uri.parse('http://52.66.248.226/api/student/otp-send');

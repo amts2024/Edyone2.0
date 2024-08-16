@@ -41,7 +41,8 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10), // Space between header and profile image
+              const SizedBox(
+                  height: 10), // Space between header and profile image
               Center(
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -54,7 +55,8 @@ class _MyProfileState extends State<MyProfile> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: const DecorationImage(
-                          image: AssetImage('icon/Frame117.png'), // Replace with your image path
+                          image: AssetImage(
+                              'icon/Frame117.png'), // Replace with your image path
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -64,14 +66,17 @@ class _MyProfileState extends State<MyProfile> {
                       top: 12, // Aligns the button vertically with the image
                       right: -100, // Positions the button next to the image
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10), // Padding inside the button
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10), // Padding inside the button
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xFFA10048), Color(0xFF2300FF)],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                           ),
-                          borderRadius: BorderRadius.circular(5), // Rounded corners
+                          borderRadius:
+                              BorderRadius.circular(5), // Rounded corners
                         ),
                         child: Row(
                           children: const [
@@ -95,7 +100,7 @@ class _MyProfileState extends State<MyProfile> {
               ),
               const SizedBox(height: 5), // Space between profile image and text
               const Text(
-                'Student Name',
+                'name',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 18,
@@ -105,7 +110,9 @@ class _MyProfileState extends State<MyProfile> {
                   color: Color(0xFF0B121F),
                 ),
               ),
-              const SizedBox(height: 2), // Reduced space between "Student Name" and "Class-10"
+              const SizedBox(
+                  height:
+                      2), // Reduced space between "Student Name" and "Class-10"
               const Text(
                 'Class-10',
                 style: TextStyle(
@@ -152,14 +159,17 @@ class _MyProfileState extends State<MyProfile> {
                           decoration: BoxDecoration(
                             gradient: _showPersonalDetails
                                 ? LinearGradient(
-                              colors: [
-                                Color(0xFFA10048),
-                                Color(0xFF2300FF)
-                              ],
-                            )
+                                    colors: [
+                                      Color(0xFFA10048),
+                                      Color(0xFF2300FF)
+                                    ],
+                                  )
                                 : LinearGradient(
-                              colors: [Colors.transparent, Colors.transparent],
-                            ),
+                                    colors: [
+                                      Colors.transparent,
+                                      Colors.transparent
+                                    ],
+                                  ),
                           ),
                         ),
                       ],
@@ -194,14 +204,17 @@ class _MyProfileState extends State<MyProfile> {
                           decoration: BoxDecoration(
                             gradient: !_showPersonalDetails
                                 ? LinearGradient(
-                              colors: [
-                                Color(0xFFA10048),
-                                Color(0xFF2300FF)
-                              ],
-                            )
+                                    colors: [
+                                      Color(0xFFA10048),
+                                      Color(0xFF2300FF)
+                                    ],
+                                  )
                                 : LinearGradient(
-                              colors: [Colors.transparent, Colors.transparent],
-                            ),
+                                    colors: [
+                                      Colors.transparent,
+                                      Colors.transparent
+                                    ],
+                                  ),
                           ),
                         ),
                       ],
@@ -210,13 +223,10 @@ class _MyProfileState extends State<MyProfile> {
                 ],
               ),
               _showPersonalDetails
-                  ? personaldetails()
+                  ? PersonalDetails()
                   : PurchaseHistoryPage(), // Conditionally show content based on the selected tab
 
-
-
               //UpdateDetails(),
-
             ],
           ),
         ),
@@ -224,6 +234,7 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 }
+
 class PurchaseHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -246,7 +257,8 @@ class PurchaseHistoryPage extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0), // Optional padding inside the container
+        padding:
+            const EdgeInsets.all(16.0), // Optional padding inside the container
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -258,7 +270,8 @@ class PurchaseHistoryPage extends StatelessWidget {
                   topLeft: Radius.circular(4),
                 ),
                 image: DecorationImage(
-                  image: AssetImage('icon/unsplash__zsL306fDck.png'), // Replace with your image path
+                  image: AssetImage(
+                      'icon/unsplash__zsL306fDck.png'), // Replace with your image path
                   fit: BoxFit.cover,
                 ),
               ),
@@ -269,7 +282,8 @@ class PurchaseHistoryPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between the two texts
+                    mainAxisAlignment: MainAxisAlignment
+                        .spaceBetween, // Space between the two texts
                     children: [
                       Text(
                         'Mathematics',
@@ -291,7 +305,7 @@ class PurchaseHistoryPage extends StatelessWidget {
                       fontFamily: 'Poppins',
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      height: 14.4/12, // Equivalent to 14.4px line height
+                      height: 14.4 / 12, // Equivalent to 14.4px line height
                       color: Color(0xFF818181),
                     ),
                   ),
@@ -309,9 +323,11 @@ class PurchaseHistoryPage extends StatelessWidget {
                           color: Color(0xFF002ED2),
                         ),
                       ),
-                      const SizedBox(height: 8), // Spacing between text and new row
+                      const SizedBox(
+                          height: 8), // Spacing between text and new row
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between the instructor info and remove section
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceBetween, // Space between the instructor info and remove section
                         children: [
                           Row(
                             children: [
@@ -319,21 +335,25 @@ class PurchaseHistoryPage extends StatelessWidget {
                                 width: 24, // Image width
                                 height: 24, // Image height
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4), // Image border radius
+                                  borderRadius: BorderRadius.circular(
+                                      4), // Image border radius
                                   image: DecorationImage(
-                                    image: AssetImage('icon/Avatars.png'), // Replace with your image path
+                                    image: AssetImage(
+                                        'icon/Avatars.png'), // Replace with your image path
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10), // Gap between image and text
+                              const SizedBox(
+                                  width: 10), // Gap between image and text
                               Text(
                                 'Instructor Name',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
-                                  height: 18 / 12, // Equivalent to 18px line height
+                                  height:
+                                      18 / 12, // Equivalent to 18px line height
                                   color: Color(0xFF170F49),
                                 ),
                               ),
@@ -352,5 +372,3 @@ class PurchaseHistoryPage extends StatelessWidget {
     );
   }
 }
-
-

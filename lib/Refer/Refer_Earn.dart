@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart'; // Import this for Clipboard
 
 class Refer_Earn extends StatefulWidget {
@@ -11,7 +10,8 @@ class Refer_Earn extends StatefulWidget {
 
 class _ReferEarnState extends State<Refer_Earn> {
   final double paddingSize = 10.0; // Define padding size for reuse
-  final double containerHeightFixed = 56.0; // Define a fixed height for containers
+  final double containerHeightFixed =
+      56.0; // Define a fixed height for containers
   final double textSize = 16.0; // Define a responsive text size
   final double earnings = 100.50; // Example earnings value
 
@@ -32,7 +32,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                       Navigator.pop(context);
                     },
                   ),
-                  const SizedBox(width: 8), // Optional spacing between icon and text
+                  const SizedBox(
+                      width: 8), // Optional spacing between icon and text
                   const Text(
                     'Refer & Earn',
                     style: TextStyle(
@@ -44,7 +45,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Space between the title and the image
+              const SizedBox(
+                  height: 20), // Space between the title and the image
               Center(
                 child: Opacity(
                   opacity: 0.9, // Optional opacity as per your requirement
@@ -53,7 +55,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                     height: 227, // Image height
                     child: Image.asset(
                       'icon/Asset12.png', // Replace with your image asset path
-                      fit: BoxFit.cover, // Adjust image fitting as per requirement
+                      fit: BoxFit
+                          .cover, // Adjust image fitting as per requirement
                     ),
                   ),
                 ),
@@ -67,12 +70,15 @@ class _ReferEarnState extends State<Refer_Earn> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch, // Ensure the child takes full width
+                  crossAxisAlignment: CrossAxisAlignment
+                      .stretch, // Ensure the child takes full width
                   children: [
                     Container(
                       width: double.infinity, // Full width container
                       height: 56, // Inner layout height
-                      padding: const EdgeInsets.symmetric(horizontal: 99, vertical: 9), // Padding for inner layout
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 99,
+                          vertical: 9), // Padding for inner layout
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFAB07),
                         borderRadius: BorderRadius.only(
@@ -87,7 +93,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                             fontFamily: 'Potta One',
                             fontSize: 26.13,
                             fontWeight: FontWeight.w400,
-                            height: 37.83 / 26.13, // Corrected line height factor
+                            height:
+                                37.83 / 26.13, // Corrected line height factor
                             letterSpacing: 0.01,
                             color: Colors.white,
                           ),
@@ -95,7 +102,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(paddingSize), // Padding inside the RichText container
+                      padding: EdgeInsets.all(
+                          paddingSize), // Padding inside the RichText container
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
@@ -113,10 +121,9 @@ class _ReferEarnState extends State<Refer_Earn> {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 1,
                                 fontFamily: 'Poppins',
-                                height: 24/16,
+                                height: 24 / 16,
                               ),
                             ),
-
                             TextSpan(
                               text: '\n10% cashback ',
                               style: TextStyle(
@@ -124,7 +131,7 @@ class _ReferEarnState extends State<Refer_Earn> {
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 1,
                                 fontFamily: 'Poppins',
-                                height: 28.5/19,
+                                height: 28.5 / 19,
                                 fontSize: 19,
                               ),
                             ),
@@ -136,7 +143,7 @@ class _ReferEarnState extends State<Refer_Earn> {
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 1,
                                 fontFamily: 'Poppins',
-                                height: 24/16,
+                                height: 24 / 16,
                               ),
                             ),
                           ],
@@ -145,12 +152,13 @@ class _ReferEarnState extends State<Refer_Earn> {
                     ),
                     SizedBox(
                         height:
-                        paddingSize), // Space between the RichText and the Total Earnings section
+                            paddingSize), // Space between the RichText and the Total Earnings section
                     Center(
                       child: Container(
                         width: 251,
                         height: 42,
-                        padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 22.36),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 7.5, horizontal: 22.36),
                         decoration: BoxDecoration(
                           color: const Color(0xFF189416),
                           borderRadius: const BorderRadius.only(
@@ -189,43 +197,38 @@ class _ReferEarnState extends State<Refer_Earn> {
                                     child: Text(
                                       '₹',
                                       style: TextStyle(
-                                        fontSize: 12, // Adjust the size if needed
+                                        fontSize:
+                                            12, // Adjust the size if needed
                                         color: Colors.white,
-
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 5), // Adjust the gap if needed
+                                const SizedBox(
+                                    width: 5), // Adjust the gap if needed
                                 Text(
                                   '500',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 21,
                                     fontWeight: FontWeight.w600,
-                                    height: 25.2/21, // 27px / 18px = 1.5
+                                    height: 25.2 / 21, // 27px / 18px = 1.5
                                     letterSpacing: 0.01,
                                     color: Color(0xFFFFFFFF),
                                   ),
                                 ),
                               ],
                             ),
-
                           ],
                         ),
                       ),
-
                     ),
-
-
 
                     SizedBox(
                         height:
-                        paddingSize), // Space between the Total Earnings and the referral code section
+                            paddingSize), // Space between the Total Earnings and the referral code section
                   ],
                 ),
-
-
               ),
               Container(
                 padding: EdgeInsets.all(paddingSize),
@@ -237,7 +240,7 @@ class _ReferEarnState extends State<Refer_Earn> {
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF000000),
                       fontFamily: 'Poppins',
-                      height: 19.2/16,
+                      height: 19.2 / 16,
                       letterSpacing: 1,
                     ),
                     textAlign: TextAlign.center,
@@ -283,9 +286,11 @@ class _ReferEarnState extends State<Refer_Earn> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Clipboard.setData(ClipboardData(text: 'AM123456EDY'));
+                                Clipboard.setData(
+                                    ClipboardData(text: 'AM123456EDY'));
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Copied to clipboard')),
+                                  SnackBar(
+                                      content: Text('Copied to clipboard')),
                                 );
                               },
                               child: Container(
@@ -298,7 +303,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 1), // Small gap between the two icons
+                            const SizedBox(
+                                width: 1), // Small gap between the two icons
                             Container(
                               width: 48,
                               height: 48,
@@ -319,7 +325,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                   Container(
                     width: 388,
                     height: 48,
-                    margin: const EdgeInsets.only(top: 8), // Adjust the spacing as needed
+                    margin: const EdgeInsets.only(
+                        top: 8), // Adjust the spacing as needed
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -342,7 +349,6 @@ class _ReferEarnState extends State<Refer_Earn> {
                         // Right side: "Copy Link" text
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
-
                           child: Text(
                             'Copy Link',
                             style: TextStyle(
@@ -382,24 +388,24 @@ class _ReferEarnState extends State<Refer_Earn> {
                         child: Text(
                           'https://www.figma.com/design/99kW1MPPO6tgzK97'
                           'LodC3/Edyone?node-id=1029-874&t=nPe7zP6qZ81'
-                        'Ara4k-1',
+                          'Ara4k-1',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            height: 18.8/16, // 19.2px / 16px = 1.2
+                            height: 18.8 / 16, // 19.2px / 16px = 1.2
                             letterSpacing: 0.01,
                             color: Color(0xFF2F76FF),
                           ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
 
-              const SizedBox(height: 20), // Space between the title and the image
+              const SizedBox(
+                  height: 20), // Space between the title and the image
               Center(
                 child: Opacity(
                   opacity: 0.9, // Optional opacity as per your requirement
@@ -408,12 +414,12 @@ class _ReferEarnState extends State<Refer_Earn> {
                     height: 43, // Image height
                     child: Image.asset(
                       'icon/hiw.png', // Replace with your image asset path
-                      fit: BoxFit.cover, // Adjust image fitting as per requirement
+                      fit: BoxFit
+                          .cover, // Adjust image fitting as per requirement
                     ),
                   ),
                 ),
               ),
-
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,7 +457,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                             fontFamily: 'Poppins',
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            height: 21.6 / 18, // line-height: 21.6px / font-size: 18px
+                            height: 21.6 /
+                                18, // line-height: 21.6px / font-size: 18px
                             color: Colors.black,
                           ),
                         ),
@@ -461,7 +468,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                       Container(
                         width: 76,
                         height: 24,
-                        padding: const EdgeInsets.fromLTRB(7, 2, 7, 1), // Adjust padding as needed
+                        padding: const EdgeInsets.fromLTRB(
+                            7, 2, 7, 1), // Adjust padding as needed
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: const BorderRadius.only(
@@ -507,7 +515,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                     padding: EdgeInsets.all(12), // Adjust padding as needed
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8), // Combined all corners with same radius
+                      borderRadius: BorderRadius.circular(
+                          8), // Combined all corners with same radius
                       border: Border.all(
                         color: Color(0xFFEBEBEB), // Border color
                         width: 0.5,
@@ -518,7 +527,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                         // Inner Container (Nested Layout)
                         Container(
                           width: 390,
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0), // Adjust padding as needed
+                          padding: EdgeInsets.fromLTRB(
+                              10, 0, 0, 0), // Adjust padding as needed
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -531,10 +541,12 @@ class _ReferEarnState extends State<Refer_Earn> {
                               Container(
                                 width: 44,
                                 height: 44,
-                                padding: EdgeInsets.all(10), // Adjust padding as needed
+                                padding: EdgeInsets.all(
+                                    10), // Adjust padding as needed
                                 decoration: BoxDecoration(
                                   color: Color(0xFF17C16A), // Success color
-                                  borderRadius: BorderRadius.circular(36), // Circular shape
+                                  borderRadius: BorderRadius.circular(
+                                      36), // Circular shape
                                 ),
                                 child: Image.asset(
                                   'icon/Vector(1).png', // Replace with your image path
@@ -542,7 +554,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                                   height: 24,
                                 ),
                               ),
-                              const SizedBox(width: 10), // Spacing between image and text
+                              const SizedBox(
+                                  width: 10), // Spacing between image and text
 
                               // Right Text Layout
                               Expanded(
@@ -555,11 +568,14 @@ class _ReferEarnState extends State<Refer_Earn> {
                                         fontFamily: 'Poppins',
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        height: 16.8 / 14, // line-height: 16.8px / font-size: 14px
+                                        height: 16.8 /
+                                            14, // line-height: 16.8px / font-size: 14px
                                         color: Color(0xFF5F5F5F), // Text color
                                       ),
                                     ),
-                                    const SizedBox(height: 4), // Add some space between the name and the new layout
+                                    const SizedBox(
+                                        height:
+                                            4), // Add some space between the name and the new layout
 
                                     // New Layout below "Saumy Verma"
                                     Row(
@@ -569,11 +585,15 @@ class _ReferEarnState extends State<Refer_Earn> {
                                           width: 8,
                                           height: 8,
                                           decoration: BoxDecoration(
-                                            color: Color(0xFF17C16A), // Success color
-                                            borderRadius: BorderRadius.circular(36), // Circular shape
+                                            color: Color(
+                                                0xFF17C16A), // Success color
+                                            borderRadius: BorderRadius.circular(
+                                                36), // Circular shape
                                           ),
                                         ),
-                                        const SizedBox(width: 8), // Spacing between the circle and the text
+                                        const SizedBox(
+                                            width:
+                                                8), // Spacing between the circle and the text
 
                                         // "Success" Text
                                         Text(
@@ -582,8 +602,10 @@ class _ReferEarnState extends State<Refer_Earn> {
                                             fontFamily: 'Poppins',
                                             fontSize: 10,
                                             fontWeight: FontWeight.w400,
-                                            height: 12 / 10, // line-height: 12px / font-size: 10px
-                                            color: Color(0xFFC2C2C2), // Text color
+                                            height: 12 /
+                                                10, // line-height: 12px / font-size: 10px
+                                            color:
+                                                Color(0xFFC2C2C2), // Text color
                                           ),
                                         ),
                                       ],
@@ -598,7 +620,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  height: 16.8 / 14, // line-height: 16.8px / font-size: 14px
+                                  height: 16.8 /
+                                      14, // line-height: 16.8px / font-size: 14px
                                   color: Color(0xFF17C16A), // Success color
                                 ),
                               ),
@@ -615,7 +638,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                     padding: EdgeInsets.all(12), // Adjust padding as needed
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8), // Combined all corners with same radius
+                      borderRadius: BorderRadius.circular(
+                          8), // Combined all corners with same radius
                       border: Border.all(
                         color: Color(0xFFEBEBEB), // Border color
                         width: 0.5,
@@ -626,7 +650,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                         // Inner Container (Nested Layout)
                         Container(
                           width: 390,
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0), // Adjust padding as needed
+                          padding: EdgeInsets.fromLTRB(
+                              10, 0, 0, 0), // Adjust padding as needed
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -639,10 +664,12 @@ class _ReferEarnState extends State<Refer_Earn> {
                               Container(
                                 width: 44,
                                 height: 44,
-                                padding: EdgeInsets.all(10), // Adjust padding as needed
+                                padding: EdgeInsets.all(
+                                    10), // Adjust padding as needed
                                 decoration: BoxDecoration(
                                   color: Color(0xFFFFA927), // Success color
-                                  borderRadius: BorderRadius.circular(36), // Circular shape
+                                  borderRadius: BorderRadius.circular(
+                                      36), // Circular shape
                                 ),
                                 child: Image.asset(
                                   'icon/Vector(1).png', // Replace with your image path
@@ -650,7 +677,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                                   height: 24,
                                 ),
                               ),
-                              const SizedBox(width: 10), // Spacing between image and text
+                              const SizedBox(
+                                  width: 10), // Spacing between image and text
 
                               // Right Text Layout
                               Expanded(
@@ -663,11 +691,14 @@ class _ReferEarnState extends State<Refer_Earn> {
                                         fontFamily: 'Poppins',
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        height: 16.8 / 14, // line-height: 16.8px / font-size: 14px
+                                        height: 16.8 /
+                                            14, // line-height: 16.8px / font-size: 14px
                                         color: Color(0xFF5F5F5F), // Text color
                                       ),
                                     ),
-                                    const SizedBox(height: 4), // Add some space between the name and the new layout
+                                    const SizedBox(
+                                        height:
+                                            4), // Add some space between the name and the new layout
 
                                     // New Layout below "Saumy Verma"
                                     Row(
@@ -677,11 +708,15 @@ class _ReferEarnState extends State<Refer_Earn> {
                                           width: 8,
                                           height: 8,
                                           decoration: BoxDecoration(
-                                            color: Color(0xFFFFA927), // Success color
-                                            borderRadius: BorderRadius.circular(36), // Circular shape
+                                            color: Color(
+                                                0xFFFFA927), // Success color
+                                            borderRadius: BorderRadius.circular(
+                                                36), // Circular shape
                                           ),
                                         ),
-                                        const SizedBox(width: 8), // Spacing between the circle and the text
+                                        const SizedBox(
+                                            width:
+                                                8), // Spacing between the circle and the text
 
                                         // "Success" Text
                                         Text(
@@ -690,8 +725,10 @@ class _ReferEarnState extends State<Refer_Earn> {
                                             fontFamily: 'Poppins',
                                             fontSize: 10,
                                             fontWeight: FontWeight.w400,
-                                            height: 12 / 10, // line-height: 12px / font-size: 10px
-                                            color: Color(0xFFC03744), // Text color
+                                            height: 12 /
+                                                10, // line-height: 12px / font-size: 10px
+                                            color:
+                                                Color(0xFFC03744), // Text color
                                           ),
                                         ),
                                       ],
@@ -706,7 +743,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                                   fontFamily: 'Poppins',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  height: 16.8 / 14, // line-height: 16.8px / font-size: 14px
+                                  height: 16.8 /
+                                      14, // line-height: 16.8px / font-size: 14px
                                   color: Color(0xFFC03744), // Success color
                                 ),
                               ),
@@ -716,11 +754,8 @@ class _ReferEarnState extends State<Refer_Earn> {
                       ],
                     ),
                   ),
-
                 ],
               ),
-
-
             ],
           ),
         ),

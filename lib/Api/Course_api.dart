@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Modal/My_profile_model.dart';
 import '../Modal/Course_model.dart';
 
 class ApiService {
@@ -22,5 +24,39 @@ class ApiService {
     } else {
       throw Exception('Failed to load courses');
     }
+  }
+}
+
+Future<Map<String, dynamic>> fetchCourseDetails(String courseId) async {
+  final url = Uri.parse('https://admin.edyone.site/api/course/get-by-id');
+  final requestBody = jsonEncode({'course_id': courseId});
+
+  // // Retrieve the token from shared preferences
+  // final prefs = await SharedPreferences.getInstance();
+  // final token =
+  //     prefs.getString('token'); // Replace 'authToken' with your actual key
+  //
+  // if (token == null) {
+  //   throw Exception('No authorization token found');
+  // }
+
+  final response = await http.post(
+    url,
+    headers: {
+      'Authorization': 'Bearer lPpIG4JNsrzakZtGlcxgjiglFVfeWMg8LIX2ydPO',
+      'Content-Type': 'application/json',
+    },
+    body: requestBody,
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    if (data['status']) {
+      return data['data'];
+    } else {
+      throw Exception('Failed to load course');
+    }
+  } else {
+    throw Exception('Failed to load course');
   }
 }
