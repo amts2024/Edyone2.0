@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'Navbar.dart';
@@ -13,6 +15,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController _nameController = TextEditingController();
   bool _isEditingName = false;
   bool _showPersonalDetails = true; // Added boolean to toggle content
+  Map<String, dynamic>? _userData; // Variable to hold user data
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData(); // Fetch user data when the widget is initialized
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      final url = Uri.parse('https://admin.edyone.site/api/student/get-data');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer fKlw0WyyLhFDZCCuwfKBBlWaREbcj8yn8xPWrVsS',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status']) {
+          setState(() {
+            _userData = data['data']; // Store user data in state
+            _nameController.text = _userData!['name']; // Set the name
+          });
+        } else {
+          throw Exception('Failed to load user data');
+        }
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -45,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                Navbar()), // Replace YourPage with your desired page
+                                Navbar()), // Replace with your desired page
                       );
                     },
                   ),
@@ -78,11 +116,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         child: CircleAvatar(
-                          radius: 76.0, // 80 - 4 (border width)
+                          radius: 76.0,
                           backgroundImage: _image != null
                               ? FileImage(_image!)
-                              : AssetImage("assets/images/banner.png")
-                                  as ImageProvider,
+                              : _userData != null && _userData!['image'] != null
+                                  ? NetworkImage(_userData![
+                                      'image']) // Load image from API
+                                  : AssetImage("assets/images/banner.png")
+                                      as ImageProvider,
                         ),
                       ),
                       Positioned(
@@ -128,43 +169,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontSize: 20,
                                   ),
                                 ),
-                          SizedBox(
-                              height:
-                                  8), // Add some space between the two texts
+                          SizedBox(height: 8),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left:
-                                    20.0), // You can adjust the padding value as needed
+                            padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Class-10',
+                              _userData != null && _userData!['class'] != null
+                                  ? 'Class-${_userData!['class']}' // Display class from API
+                                  : 'Class-10', // Default value
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors
-                                    .black, // You can adjust color as needed
+                                color: Colors.black,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
-                      SizedBox(
-                          width:
-                              4), // Add some space between the text and the icon
+                      SizedBox(width: 4),
                       IconButton(
                         icon: Padding(
-                          padding: EdgeInsets.only(
-                              bottom: 28.0), // Add padding to the bottom
+                          padding: EdgeInsets.only(bottom: 28.0),
                           child: _isEditingName
                               ? Image.asset('assets/images/pen.png')
                               : Image.asset(
-                                  'images/pen.png',
+                                  'assets/images/pen.png',
                                   color: Colors.black,
                                 ),
                         ),
                         onPressed: () {
                           setState(() {
                             if (_isEditingName) {
-                              // Perform save operation if needed
+                              // Save logic if needed
                               if (_nameController.text.isEmpty) {
                                 _nameController.text = 'Student Name';
                               }
@@ -182,98 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     indent: 20,
                     endIndent: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _showPersonalDetails = true;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              'Personal Details',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                foreground: Paint()
-                                  ..shader = LinearGradient(
-                                    colors: _showPersonalDetails
-                                        ? [Color(0xFFA10048), Color(0xFF2300FF)]
-                                        : [Colors.black, Colors.black],
-                                  ).createShader(
-                                    Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-                                  ),
-                              ),
-                            ),
-                            Container(
-                              height: 4,
-                              width: 170,
-                              decoration: BoxDecoration(
-                                gradient: _showPersonalDetails
-                                    ? LinearGradient(
-                                        colors: [
-                                          Color(0xFFA10048),
-                                          Color(0xFF2300FF)
-                                        ],
-                                      )
-                                    : LinearGradient(
-                                        colors: [Colors.grey, Colors.grey],
-                                      ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _showPersonalDetails = false;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              'My Purchase',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                foreground: Paint()
-                                  ..shader = LinearGradient(
-                                    colors: !_showPersonalDetails
-                                        ? [Color(0xFFA10048), Color(0xFF2300FF)]
-                                        : [Colors.black, Colors.black],
-                                  ).createShader(
-                                    Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-                                  ),
-                              ),
-                            ),
-                            Container(
-                              height: 4,
-                              width: 170,
-                              decoration: BoxDecoration(
-                                gradient: !_showPersonalDetails
-                                    ? LinearGradient(
-                                        colors: [
-                                          Color(0xFFA10048),
-                                          Color(0xFF2300FF)
-                                        ],
-                                      )
-                                    : LinearGradient(
-                                        colors: [Colors.grey, Colors.grey],
-                                      ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  _showPersonalDetails
-                      ? PersonalDetailsPage()
-                      : PurchaseHistoryPage(), // Conditionally show content based on the selected tab
+                  // Additional UI elements can go here...
                 ],
               ),
             ),
@@ -281,366 +225,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-}
-
-class PersonalDetailsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 18.0,
-                  top: 18.0), // Add left and top padding to the calendar logo
-              child: Image.asset(
-                'assets/images/calender.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 10.0,
-                  top: 18.0), // Add left and top padding to the text "Calendar"
-              child: Text('Calendar'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-              left: 28.0, bottom: 10.0), // Add padding to the TextFormField
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    '22 July 2002' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-        // Add other form fields here...
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 18.0), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/sex.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Gender'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    'Male' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/email.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Email ID'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText:
-                  'example@gmail.com', // Add other InputDecoration properties as needed
-            ),
-          ),
-        ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/mobile.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Mobile Number'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    '+91 956852 956852' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/adr.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Address'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    'A-76, Sector 45, Noida, Uttar Pradesh Near Rockwell Building, 201301' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/edu.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Education State '),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    'Uttar Pradesh' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/edb.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Education Board'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    'U.P. Board' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 18.0,
-              ), // Add left and top padding to the Gmail logo
-              child: Image.asset(
-                'assets/images/training.png',
-                width: 24,
-                height: 24,
-                color: Colors.black,
-              ), // Custom calendar icon
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 10.0,
-              ), // Add left and top padding to the text "Gmail"
-              child: Text('Standard/Class'),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 28.0,
-          ), // Add padding to the TextFormField for Gmail
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText:
-                    'Class-10' // Add other InputDecoration properties as needed
-                ),
-          ),
-        ),
-
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20.0), // Add bottom padding
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: 187,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Implement edit profile functionality
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color(0xFFA10048),
-                          Color(0xFF2300FF),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      // No borderRadius for rectangle button
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Edit Profile',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 187,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Implement reset password functionality
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color(0xFFA10048),
-                          Color(0xFF2300FF),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      // No borderRadius for rectangle button
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Reset Password',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class PurchaseHistoryPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        // Add your purchase history UI here...
-        );
   }
 }

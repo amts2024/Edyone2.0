@@ -1,6 +1,9 @@
-import 'package:edyon/Profile/Personaldetails.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'Personaldetails.dart';
 import 'UpdateDetails.dart';
 
 class MyProfile extends StatefulWidget {
@@ -10,7 +13,58 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   bool _isEditingName = false;
-  bool _showPersonalDetails = true; // Added boolean to toggle content
+  bool _showPersonalDetails = true;
+  File? _image;
+  Map<String, dynamic>? _userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      final url = Uri.parse('https://admin.edyone.site/api/student/get-data');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer fKlw0WyyLhFDZCCuwfKBBlWaREbcj8yn8xPWrVsS',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status']) {
+          setState(() {
+            _userData = data['data'];
+          });
+          print("User data loaded successfully");
+        } else {
+          throw Exception('Failed to load user data');
+        }
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+      print("Image selected: ${pickedFile.path}");
+    } else {
+      print('No image selected.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,92 +95,112 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 ],
               ),
-              const SizedBox(
-                  height: 10), // Space between header and profile image
+              const SizedBox(height: 10),
               Center(
                 child: Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
                   children: [
-                    // Profile Image
+                    // Profile Image Widget
                     Container(
-                      width: 150, // Profile image width
-                      height: 150, // Profile image height
+                      width: 150,
+                      height: 150,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: const DecorationImage(
-                          image: AssetImage(
-                              'icon/Frame117.png'), // Replace with your image path
+                        image: DecorationImage(
+                          image: _image != null
+                              ? FileImage(_image!)
+                              : _userData != null &&
+                                      _userData!['image'] != null &&
+                                      _userData!['image'].isNotEmpty
+                                  ? NetworkImage(_userData!['image'])
+                                      as ImageProvider
+                                  : const AssetImage(
+                                      'assets/images/banner.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
+                      child: _image == null &&
+                              (_userData == null ||
+                                  _userData!['image'] == null ||
+                                  _userData!['image'].isEmpty)
+                          ? Center(
+                              child: Icon(
+                                Icons.person,
+                                size: 80,
+                                color: Colors.grey[400],
+                              ),
+                            )
+                          : null,
                     ),
+
                     // Edit Button
                     Positioned(
-                      top: 12, // Aligns the button vertically with the image
-                      right: -100, // Positions the button next to the image
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10), // Padding inside the button
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(5), // Rounded corners
-                        ),
-                        child: Row(
-                          children: const [
-                            Text(
-                              'Edit',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: Colors.white,
-                              ),
+                      top: 12,
+                      right: -100,
+                      child: GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFA10048), Color(0xFF2300FF)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
                             ),
-                            SizedBox(width: 8), // Gap between icon and text
-                            Icon(Icons.edit, color: Colors.white, size: 20),
-                          ],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Edit',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(Icons.edit, color: Colors.white, size: 20),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 5), // Space between profile image and text
-              const Text(
-                'name',
-                style: TextStyle(
+              const SizedBox(height: 5),
+              Text(
+                _userData != null && _userData!['name'] != null
+                    ? _userData!['name']
+                    : 'Student Name',
+                style: const TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  height: 24 / 18, // Reduced line height
+                  height: 24 / 18,
                   letterSpacing: 0.01,
                   color: Color(0xFF0B121F),
                 ),
               ),
-              const SizedBox(
-                  height:
-                      2), // Reduced space between "Student Name" and "Class-10"
-              const Text(
-                'Class-10',
-                style: TextStyle(
+              const SizedBox(height: 2),
+              Text(
+                _userData != null && _userData!['class'] != null
+                    ? 'Class-${_userData!['class']}'
+                    : 'Class-10',
+                style: const TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  height: 18 / 14, // Reduced line height
+                  height: 18 / 14,
                   letterSpacing: 0.01,
                   color: Color(0xFF70747E),
                 ),
               ),
-
-              const SizedBox(height: 30), // Space between text and new section
-
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -149,7 +223,7 @@ class _MyProfileState extends State<MyProfile> {
                                     ? [Color(0xFFA10048), Color(0xFF2300FF)]
                                     : [Colors.black, Colors.black],
                               ).createShader(
-                                Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                                const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
                               ),
                           ),
                         ),
@@ -158,13 +232,13 @@ class _MyProfileState extends State<MyProfile> {
                           width: 170,
                           decoration: BoxDecoration(
                             gradient: _showPersonalDetails
-                                ? LinearGradient(
+                                ? const LinearGradient(
                                     colors: [
                                       Color(0xFFA10048),
                                       Color(0xFF2300FF)
                                     ],
                                   )
-                                : LinearGradient(
+                                : const LinearGradient(
                                     colors: [
                                       Colors.transparent,
                                       Colors.transparent
@@ -184,7 +258,7 @@ class _MyProfileState extends State<MyProfile> {
                     child: Column(
                       children: [
                         Text(
-                          'My Purchase',
+                          'Update Details',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -194,7 +268,7 @@ class _MyProfileState extends State<MyProfile> {
                                     ? [Color(0xFFA10048), Color(0xFF2300FF)]
                                     : [Colors.black, Colors.black],
                               ).createShader(
-                                Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                                const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
                               ),
                           ),
                         ),
@@ -203,13 +277,13 @@ class _MyProfileState extends State<MyProfile> {
                           width: 170,
                           decoration: BoxDecoration(
                             gradient: !_showPersonalDetails
-                                ? LinearGradient(
+                                ? const LinearGradient(
                                     colors: [
                                       Color(0xFFA10048),
                                       Color(0xFF2300FF)
                                     ],
                                   )
-                                : LinearGradient(
+                                : const LinearGradient(
                                     colors: [
                                       Colors.transparent,
                                       Colors.transparent
@@ -222,151 +296,10 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 ],
               ),
-              _showPersonalDetails
-                  ? PersonalDetails()
-                  : PurchaseHistoryPage(), // Conditionally show content based on the selected tab
-
-              //UpdateDetails(),
+              const SizedBox(height: 30),
+              _showPersonalDetails ? PersonalDetails() : UpdateDetails(),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class PurchaseHistoryPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20), // Add top margin
-      width: 388, // Specified width
-      height: 120, // Specified height
-      decoration: BoxDecoration(
-        color: Colors.white, // Background color
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8), // Top-left border radius
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15), // Shadow color with opacity
-            spreadRadius: 0,
-            blurRadius: 20, // Blur radius for shadow
-            offset: const Offset(0, 4), // Shadow position
-          ),
-        ],
-      ),
-      child: Padding(
-        padding:
-            const EdgeInsets.all(16.0), // Optional padding inside the container
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 104,
-              height: 91,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                ),
-                image: DecorationImage(
-                  image: AssetImage(
-                      'icon/unsplash__zsL306fDck.png'), // Replace with your image path
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8), // Space between image and text
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .spaceBetween, // Space between the two texts
-                    children: [
-                      Text(
-                        'Mathematics',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.2, // Equivalent to 16.8px line height
-                          letterSpacing: 0.01,
-                          color: Color(0xFF494949),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4), // Space between texts
-                  Text(
-                    'Complete NCERT Hindi Class 5',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      height: 14.4 / 12, // Equivalent to 14.4px line height
-                      color: Color(0xFF818181),
-                    ),
-                  ),
-                  const SizedBox(height: 4), // Space between texts
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total Chapters: 25',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          height: 12 / 10, // Equivalent to 12px line height
-                          color: Color(0xFF002ED2),
-                        ),
-                      ),
-                      const SizedBox(
-                          height: 8), // Spacing between text and new row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .spaceBetween, // Space between the instructor info and remove section
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 24, // Image width
-                                height: 24, // Image height
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      4), // Image border radius
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'icon/Avatars.png'), // Replace with your image path
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                  width: 10), // Gap between image and text
-                              Text(
-                                'Instructor Name',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  height:
-                                      18 / 12, // Equivalent to 18px line height
-                                  color: Color(0xFF170F49),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

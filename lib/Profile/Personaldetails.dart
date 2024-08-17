@@ -23,10 +23,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer lPpIG4JNsrzakZtGlcxgjiglFVfeWMg8LIX2ydPO',
+        'Authorization': 'Bearer fKlw0WyyLhFDZCCuwfKBBlWaREbcj8yn8xPWrVsS',
         'Content-Type': 'application/json',
       },
     );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
