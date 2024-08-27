@@ -83,15 +83,15 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   color: Color(0xFF696969), // Set font color
                 ),
               ),
-              // onTap: () {
-              //   Navigator.pop(context); // Close the drawer
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) =>
-              //             ReferAndEarnPage()), // Navigate to the external InstructorPage
-              //   );
-              // },
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ReferAndEarnPage()), // Navigate to the external InstructorPage
+                );
+              },
             ),
             ListTile(
               leading: ImageIcon(

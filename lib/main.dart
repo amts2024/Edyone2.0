@@ -1,10 +1,12 @@
 import 'package:edyon/Profile/MyProfile.dart';
+import 'package:edyon/refer_and_earn.dart';
 import 'package:edyon/splash1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
+import 'FollowUs.dart';
 import 'Navbar.dart';
 
 import 'User_auth/signin_page.dart'; // Import SignInPage
@@ -35,8 +37,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => MyProfile(),
-        '/login': (context) => MyProfile(), // Add the CheckAuth route
+        '/': (context) => Navbar(),
+        '/login': (context) => MainPage(), // Add the CheckAuth route
 
         // Login screen
       },
