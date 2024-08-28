@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'About_us.dart';
+import 'Batches/Batch.dart';
 import 'FollowUs.dart';
+import 'Learning&Center.dart';
 import 'Navbar.dart';
 
+import 'Profile/More_Free.dart';
+import 'Refer/Cart.dart';
 import 'User_auth/signin_page.dart'; // Import SignInPage
 
 void main() {
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => Navbar(),
+        '/': (context) => MainPage(),
         '/login': (context) => MainPage(), // Add the CheckAuth route
 
         // Login screen

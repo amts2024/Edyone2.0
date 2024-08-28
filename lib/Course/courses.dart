@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:universal_html/js.dart';
 
 import '../Modal/Course_model.dart';
+import '../Refer/Cart.dart';
 import 'CourseDetails.dart';
 
 class CoursesScreen extends StatefulWidget {
@@ -703,22 +705,31 @@ class CourseCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                margin: EdgeInsets.only(left: 75),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: Color(0xFF1A21BC),
-                    width: 0.5,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context as BuildContext,
+                    MaterialPageRoute(
+                        builder: (context) => Cart()), // Navigate to Cart page
+                  );
+                },
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  margin: EdgeInsets.only(left: 75),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      color: Color(0xFF1A21BC),
+                      width: 0.5,
+                    ),
                   ),
-                ),
-                child: Image.asset(
-                  'assets/icon/Frame.png',
-                  width: 20,
-                  height: 20,
+                  child: Image.asset(
+                    'assets/icon/Frame.png',
+                    width: 20,
+                    height: 20,
+                  ),
                 ),
               ),
               SizedBox(

@@ -339,26 +339,28 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 0,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(8.0), // Adjust padding as needed
         child: Row(
           children: [
+            // Container to enforce specific dimensions
             Container(
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                shape: BoxShape.circle,
                 image: DecorationImage(
                   image: NetworkImage(
                     teacher['Image'] ??
                         'https://example.com/default_profile_picture.jpg',
                   ),
-                  fit: BoxFit.cover,
+                  fit: BoxFit
+                      .cover, // Ensures the image covers the entire circle
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            SizedBox(width: 16), // Space between Container and text
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +404,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Handle profile click
+// Handle profile click
       },
       child: Container(
         decoration: BoxDecoration(
@@ -595,7 +597,7 @@ class _ReviewCardState extends State<ReviewCard> {
                               ),
                             ),
                           ),
-                          // Replace Icon with PNG image
+// Replace Icon with PNG image
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -604,7 +606,7 @@ class _ReviewCardState extends State<ReviewCard> {
                                 width: 16.0,
                                 height: 16.0,
                               ),
-                              // Space between dots
+// Space between dots
                             ],
                           ),
                         ],
@@ -612,7 +614,7 @@ class _ReviewCardState extends State<ReviewCard> {
                       SizedBox(height: 8),
                       Row(
                         children: [
-                          // Display stars based on rating
+// Display stars based on rating
                           Row(
                             children: List.generate(
                               fullStars,
@@ -666,12 +668,12 @@ class _ReviewCardState extends State<ReviewCard> {
               ],
             ),
 
-            // Separate container for review, dividers, and like/dislike buttons
+// Separate container for review, dividers, and like/dislike buttons
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Review text with left margin
+// Review text with left margin
                   Container(
                     margin: EdgeInsets.only(left: 10.0),
                     child: Text(
@@ -685,7 +687,7 @@ class _ReviewCardState extends State<ReviewCard> {
                   ),
                   SizedBox(height: 8), // Space before dividers
                   Divider(color: Colors.grey[400]),
-                  // Space after dividers
+// Space after dividers
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -735,7 +737,7 @@ class _ReviewCardState extends State<ReviewCard> {
                       ),
                     ],
                   ),
-                  // Space before the last divider
+// Space before the last divider
                   Divider(color: Colors.grey[400]),
                 ],
               ),

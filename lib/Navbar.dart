@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
+import 'Batches/Batch.dart';
 import 'Course/courses.dart';
 import 'Instructor.dart';
+import 'Learning&Center.dart';
 import 'Paid_pages/paid_sidebar.dart';
+import 'Profile/More_Free.dart';
 import 'Unitle_pages/bottom_navbar.dart';
 import 'Unitle_pages/side_menubar.dart';
 import 'Unitle_pages/top_navbar.dart';
@@ -21,9 +24,9 @@ class _NavbarState extends State<Navbar> {
   final List<Widget> _pages = [
     HomePage(),
     CoursesScreen(),
-    WalletPage(),
-    CalendarPage(),
-    CoursesPage(),
+    LearningCenter(),
+    BatchScreen(),
+    MoreFree(),
     VideosPage(),
     MCQPage(),
     DPPPage(),
@@ -200,38 +203,11 @@ class ReferEarnPage extends StatelessWidget {
   }
 }
 
-class WalletPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Learning Center'),
-    );
-  }
-}
-
-class CalendarPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Batch'),
-    );
-  }
-}
-
 class InstructorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text('Instructor Page'),
-    );
-  }
-}
-
-class CoursesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('More Option'),
     );
   }
 }

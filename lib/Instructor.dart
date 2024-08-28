@@ -77,7 +77,6 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
       return ApiResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load teachers');
@@ -85,96 +84,70 @@ class ApiService {
   }
 }
 
-// Gradient Border TextField Widget
-class GradientBorderPainter extends CustomPainter {
-  final Gradient gradient;
-  final double strokeWidth;
-  final double radius;
-
-  GradientBorderPainter({
-    required this.gradient,
-    this.strokeWidth = 2.0,
-    this.radius = 7.0,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final rRect = RRect.fromRectAndRadius(rect, Radius.circular(radius));
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth;
-
-    canvas.drawRRect(rRect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class GradientBorderTextField extends StatelessWidget {
-  final Gradient gradient;
-  final double strokeWidth;
-  final double radius;
-  final String hintText;
+// Gradient Border Dropdown Button
+class GradientBorderDropdown extends StatelessWidget {
+  final String placeholder;
+  final String selectedValue;
   final List<String> dropdownItems;
   final ValueChanged<String?> onDropdownChanged;
+  final Color borderColor;
 
-  GradientBorderTextField({
-    required this.gradient,
-    this.strokeWidth = 2.0,
-    this.radius = 7.0,
-    required this.hintText,
+  GradientBorderDropdown({
+    required this.placeholder,
+    required this.selectedValue,
     required this.dropdownItems,
     required this.onDropdownChanged,
+    required this.borderColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: GradientBorderPainter(
-        gradient: gradient,
-        strokeWidth: strokeWidth,
-        radius: radius,
-      ),
-      child: Container(
-        padding: EdgeInsets.all(strokeWidth),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2.0,
+          color: borderColor, // Set the border color
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: selectedValue.isEmpty ? null : selectedValue,
+            items: dropdownItems.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: onDropdownChanged,
+            icon: Icon(Icons.arrow_drop_down),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16.0,
+            ),
+            dropdownColor: Colors.white, // Background color of dropdown menu
+            hint: Padding(
+              padding: const EdgeInsets.only(left: 6.0),
+              child: Text(
+                placeholder,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
                 ),
               ),
             ),
-            Container(
-              width: 120.0,
-              height: 40.0,
-              child: DropdownButton<String>(
-                icon: Icon(Icons.arrow_drop_down),
-                isExpanded: true,
-                underline: SizedBox(),
-                items: dropdownItems.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: onDropdownChanged,
-              ),
-            ),
-          ],
+            selectedItemBuilder: (BuildContext context) {
+              return dropdownItems.map((String value) {
+                return Text(
+                  value,
+                  style: TextStyle(color: Colors.black),
+                );
+              }).toList();
+            },
+          ),
         ),
       ),
     );
@@ -199,8 +172,6 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('UserCard: teacherId=$teacherId, username=$username');
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -215,85 +186,72 @@ class UserCard extends StatelessWidget {
       child: Container(
         width: 187,
         height: 190,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFA10048).withOpacity(0.15),
-                  Color(0xFF2300FF).withOpacity(0.15),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(15.0),
+        padding: EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFA10048).withOpacity(0.15),
+                Color(0xFF2300FF).withOpacity(0.15),
+              ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 8.0, bottom: 4.0),
+                child: CircleAvatar(
+                  radius: 27.0,
+                  backgroundImage: NetworkImage(photoUrl),
+                ),
+              ),
+              Text(
+                username,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.0, bottom: 4.0),
-                    child: CircleAvatar(
-                      radius: 27.0,
-                      backgroundImage: NetworkImage(photoUrl),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 0.0),
-                    child: Text(
-                      username,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(customIconPath, height: 16.0, width: 16.0),
-                      SizedBox(width: 4.0),
-                      Text(
-                        subject,
-                        style:
-                            TextStyle(fontSize: 12.0, color: Color(0xFF4F4F4F)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 0.0),
-                    child: Divider(
-                      height: 22.0,
-                      thickness: 1.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/image1.png',
-                        height: 16.0,
-                        width: 16.0,
-                      ),
-                      SizedBox(width: 4.0),
-                      Text(
-                        '5 Courses',
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                  Image.asset(customIconPath, height: 16.0, width: 16.0),
+                  SizedBox(width: 4.0),
+                  Text(
+                    subject,
+                    style: TextStyle(fontSize: 12.0, color: Color(0xFF4F4F4F)),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
-            ),
+              Divider(
+                height: 22.0,
+                thickness: 1.0,
+                color: Colors.grey,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/image1.png',
+                    height: 16.0,
+                    width: 16.0,
+                  ),
+                  SizedBox(width: 4.0),
+                  Text(
+                    '5 Courses',
+                    style: TextStyle(
+                      fontSize: 10.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -341,10 +299,7 @@ class _MyWidgetState extends State<MyWidget> {
                 IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Navbar()),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
                 Padding(
@@ -352,27 +307,25 @@ class _MyWidgetState extends State<MyWidget> {
                   child: Text(
                     'Instructor',
                     style: TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
-                      fontFamily: 'Poppins',
                     ),
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(height: 10),
           Padding(
-            padding: EdgeInsets.only(top: 24.0, left: 16.0, right: 16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
-                  child: GradientBorderTextField(
-                    gradient: LinearGradient(
-                      colors: [Colors.red, Colors.blue],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    hintText: 'Select Subject',
+                  child: GradientBorderDropdown(
+                    placeholder: 'Select Subject',
+                    borderColor:
+                        Colors.red, // Border color for subject dropdown
+                    selectedValue: selectedSubject,
                     dropdownItems: [
                       'Math',
                       'Science',
@@ -389,13 +342,11 @@ class _MyWidgetState extends State<MyWidget> {
                 ),
                 SizedBox(width: 16.0),
                 Expanded(
-                  child: GradientBorderTextField(
-                    gradient: LinearGradient(
-                      colors: [Colors.green, Colors.purple],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    hintText: 'Select Class',
+                  child: GradientBorderDropdown(
+                    placeholder: 'Select Class',
+                    borderColor:
+                        Colors.green, // Border color for class dropdown
+                    selectedValue: selectedClass,
                     dropdownItems: [
                       '4th',
                       '5th',
@@ -414,53 +365,40 @@ class _MyWidgetState extends State<MyWidget> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: FutureBuilder<ApiResponse>(
-                future: futureTeachers,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    return GridView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                        childAspectRatio: 187 / 190,
-                      ),
-                      itemCount: snapshot.data!.data.length,
-                      itemBuilder: (context, index) {
-                        return UserCard(
-                          photoUrl: snapshot.data!.data[index].image,
-                          username: snapshot.data!.data[index].name,
-                          subject: snapshot.data!.data[index].courseTitle,
-                          customIconPath: 'assets/images/image1.png',
-                          teacherId: snapshot.data!.data[index].teacherId,
-                        );
-                      },
-                    );
-                  } else {
-                    return Text('No data available');
-                  }
-                },
-              ),
+            child: FutureBuilder<ApiResponse>(
+              future: futureTeachers,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  final teachers = snapshot.data!.data;
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.9,
+                    ),
+                    itemCount: teachers.length,
+                    itemBuilder: (context, index) {
+                      final teacher = teachers[index];
+                      return UserCard(
+                        photoUrl: teacher.image,
+                        username: teacher.name,
+                        subject: teacher.courseTitle,
+                        customIconPath: 'assets/images/image1.png',
+                        teacherId: teacher.teacherId,
+                      );
+                    },
+                  );
+                } else {
+                  return Center(child: Text('No Data Found'));
+                }
+              },
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class Navbar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Navbar Placeholder')),
     );
   }
 }

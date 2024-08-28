@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../About_us.dart';
+import '../FollowUs.dart';
 import '../Instructor.dart';
 import '../privacy_policy.dart';
 import '../refer_and_earn.dart';
@@ -401,6 +402,15 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   color: Color(0xFF696969), // Set font color
                 ),
               ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          FollowUs()), // Navigate to the external InstructorPage
+                );
+              },
               // onTap: () => _onItemTapped(16),
             ),
 
