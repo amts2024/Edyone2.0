@@ -508,7 +508,7 @@ class CourseCard extends StatelessWidget {
             ),
           ),
         ),
-        buildPriceRow(course.price),
+        buildPriceRow(course),
       ],
     );
   }
@@ -671,110 +671,164 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-  Widget buildPriceRow(String price) {
-    return Container(
-      width: double.infinity,
-      height: 48,
-      padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-        color: Color(0xFFF3F3F3),
-        border: Border.all(
-          color: Color(0xFFEDEDED),
-          width: 0.5,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 62,
-            height: 24,
-            margin: EdgeInsets.only(left: 16),
-            child: Center(
-              child: Text(
-                price,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: Color(0xFF3C3C3C),
-                ),
-              ),
+  Widget buildPriceRow(Course course) {
+    String responseMessage = '';
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Container(
+          width: double.infinity,
+          height: 50, // Increased height to accommodate message
+          padding: EdgeInsets.zero,
+          decoration: BoxDecoration(
+            color: Color(0xFFF3F3F3),
+            border: Border.all(
+              color: Color(0xFFEDEDED),
+              width: 0.5,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+          child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context as BuildContext,
-                    MaterialPageRoute(
-                        builder: (context) => Cart()), // Navigate to Cart page
-                  );
-                },
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  margin: EdgeInsets.only(left: 75),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      color: Color(0xFF1A21BC),
-                      width: 0.5,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 62,
+                    height: 24,
+                    margin: EdgeInsets.only(left: 16),
+                    child: Center(
+                      child: Text(
+                        course.price,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          color: Color(0xFF3C3C3C),
+                        ),
+                      ),
                     ),
                   ),
-                  child: Image.asset(
-                    'assets/icon/Frame.png',
-                    width: 20,
-                    height: 20,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          final url = Uri.parse(
+                              'https://admin.edyone.site/api/course/add-cart');
+                          final response = await http.post(
+                            url,
+                            headers: {
+                              'Authorization':
+                                  'Bearer fKlw0WyyLhFDZCCuwfKBBlWaREbcj8yn8xPWrVsS',
+                              'Content-Type': 'application/json',
+                            },
+                            body: jsonEncode({
+                              'course_id': course.id,
+                            }),
+                          );
+                          print('Response status: ${response.statusCode}');
+                          print('Response body: ${response.body}');
+
+                          final message;
+                          if (response.statusCode == 201) {
+                            final data = jsonDecode(response.body);
+                            if (data['status']) {
+                              message =
+                                  'Course Added to your cart successfully!';
+                              setState(() {
+                                // Update your state here if necessary, e.g., remove the item from the list
+                              });
+                            } else {
+                              message =
+                                  data['message'] ?? 'Failed to remove course';
+                            }
+                          } else {
+                            message = 'You have already Added this Course';
+                          }
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(message),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          margin: EdgeInsets.only(left: 75, top: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: Color(0xFF1A21BC),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Image.asset(
+                            'assets/icon/Frame.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        width: 110,
+                        height: 32,
+                        margin: EdgeInsets.only(right: 2, top: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          gradient: LinearGradient(
+                            colors: [Color(0xFFA10048), Color(0xFF2300FF)],
+                            stops: [0.0, 1.0],
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Add your onPressed code here
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          child: Text(
+                            'Buy Now',
+                            style: TextStyle(
+                              fontFamily: 'DM Sans',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                width: 110,
-                height: 32,
-                margin: EdgeInsets.only(right: 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  gradient: LinearGradient(
-                    colors: [Color(0xFFA10048), Color(0xFF2300FF)],
-                    stops: [0.0, 1.0],
-                  ),
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add your onPressed code here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
+              if (responseMessage.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
                   child: Text(
-                    'Buy Now',
+                    responseMessage,
                     style: TextStyle(
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.w500,
+                      color: responseMessage.contains('already Added')
+                          ? Colors.orange
+                          : Colors.green,
                       fontSize: 14,
-                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
             ],
-          )
-        ],
-      ),
+          ),
+        );
+      },
     );
   }
 }
-
-// Sample Course class for context

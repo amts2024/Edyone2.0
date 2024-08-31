@@ -7,6 +7,11 @@ import 'package:flutter/services.dart';
 
 import 'About_us.dart';
 import 'Batches/Batch.dart';
+import 'Course/intructorDetails.dart';
+import 'Instructor.dart';
+import 'Instructor_deatails.dart';
+
+import 'Course/courses.dart';
 import 'FollowUs.dart';
 import 'Learning&Center.dart';
 import 'Navbar.dart';
@@ -41,7 +46,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => MainPage(),
+        '/': (context) => Navbar(),
         '/login': (context) => MainPage(), // Add the CheckAuth route
 
         // Login screen
