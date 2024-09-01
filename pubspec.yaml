@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   smooth_page_indicator: ^1.1.0
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   http: ^1.2.1
   shared_preferences: ^2.0.6
   provider: ^6.1.2
@@ -22,10 +22,11 @@ dependencies:
   flutter_html: 3.0.0-beta.2
   file_picker: ^5.0.0
   universal_html: ^2.0.8
-#  google_fonts: ^5.0.0
-#  share: ^2.0.4
   google_fonts: ^4.0.3
+  font_awesome_flutter: ^10.0.0 # Moved to its own line
   share_plus: ^6.3.2
+  cached_network_image: ^3.0.0 # Added for optimized image loading and caching
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,9 +38,6 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: assets/icon/edyonicon.png
-
-
-
 
 flutter:
   uses-material-design: true
