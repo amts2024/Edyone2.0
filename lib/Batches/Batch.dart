@@ -37,9 +37,6 @@ class _BatchScreenState extends State<BatchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Batch List'),
-      ),
       body: FutureBuilder<List<dynamic>>(
         future: futureBatches,
         builder: (context, snapshot) {

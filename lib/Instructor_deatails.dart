@@ -514,12 +514,15 @@ class ReviewsSection extends StatelessWidget {
             return Column(
               children: reviews.map((review) {
                 return ReviewCard(
+                  teacherRatingId: review['teacher_rating_id'] ?? 0,
                   name: review['user'] ?? 'Anonymous',
                   date: review['date'] ?? '',
                   rating: (review['rating'] ?? 0).toDouble(),
                   review: review['comments'] ?? 'No review text',
                   profileImageUrl: review['profile_image'] ??
                       'https://example.com/default_profile_picture.jpg',
+                  likes: review['likes'] ?? 0,
+                  dislikes: review['deslikes'] ?? 0,
                 );
               }).toList(),
             );
@@ -533,18 +536,24 @@ class ReviewsSection extends StatelessWidget {
 }
 
 class ReviewCard extends StatefulWidget {
+  final int teacherRatingId;
   final String name;
   final String date;
   final double rating;
   final String review;
   final String profileImageUrl;
+  final int likes;
+  final int dislikes;
 
   ReviewCard({
+    required this.teacherRatingId,
     required this.name,
     required this.date,
     required this.rating,
     required this.review,
     required this.profileImageUrl,
+    required this.likes,
+    required this.dislikes,
   });
 
   @override
@@ -554,6 +563,53 @@ class ReviewCard extends StatefulWidget {
 class _ReviewCardState extends State<ReviewCard> {
   bool isLiked = false;
   bool isDisliked = false;
+  int likesCount = 0;
+  int dislikesCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    likesCount = widget.likes;
+    dislikesCount = widget.dislikes;
+  }
+
+  Future<void> submitLikeDislike(int isLike) async {
+    final url = Uri.parse('https://admin.edyone.site/api/teacher/like-deslike');
+    final headers = {
+      'Authorization': 'Bearer hCSJk41yEtchDa4JH8HLtLVj5hOxDXpq1ycIuggn',
+      'Content-Type': 'multipart/form-data',
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..fields['teacher_rating_id'] = widget.teacherRatingId.toString()
+      ..fields['is_like'] = isLike.toString();
+
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final decodedData = json.decode(responseData);
+
+      if (decodedData['status'] == true) {
+        // Update the UI based on the response
+        setState(() {
+          if (isLike == 1) {
+            isLiked = true;
+            isDisliked = false;
+            likesCount += 1;
+            if (dislikesCount > 0) dislikesCount -= 1;
+          } else {
+            isDisliked = true;
+            isLiked = false;
+            dislikesCount += 1;
+            if (likesCount > 0) likesCount -= 1;
+          }
+        });
+      }
+    } else {
+      print('Failed to submit like/dislike');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -584,37 +640,17 @@ class _ReviewCardState extends State<ReviewCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.name,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-// Replace Icon with PNG image
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'assets/icon/dot-pending.png',
-                                width: 16.0,
-                                height: 16.0,
-                              ),
-// Space between dots
-                            ],
-                          ),
-                        ],
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
                       SizedBox(height: 8),
                       Row(
                         children: [
-// Display stars based on rating
                           Row(
                             children: List.generate(
                               fullStars,
@@ -651,7 +687,7 @@ class _ReviewCardState extends State<ReviewCard> {
                               color: Colors.black54,
                             ),
                           ),
-                          SizedBox(width: 8), // Space between rating and date
+                          SizedBox(width: 8),
                           Text(
                             widget.date,
                             style: TextStyle(
@@ -667,13 +703,10 @@ class _ReviewCardState extends State<ReviewCard> {
                 ),
               ],
             ),
-
-// Separate container for review, dividers, and like/dislike buttons
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-// Review text with left margin
                   Container(
                     margin: EdgeInsets.only(left: 10.0),
                     child: Text(
@@ -685,9 +718,8 @@ class _ReviewCardState extends State<ReviewCard> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8), // Space before dividers
+                  SizedBox(height: 8),
                   Divider(color: Colors.grey[400]),
-// Space after dividers
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -707,17 +739,19 @@ class _ReviewCardState extends State<ReviewCard> {
                               size: 16,
                             ),
                             onPressed: () {
-                              setState(() {
-                                isDisliked = !isDisliked;
-                                if (isLiked && isDisliked) {
-                                  isLiked = false;
-                                }
-                              });
+                              if (!isDisliked) {
+                                submitLikeDislike(0);
+                              }
                             },
                           ),
-                          SizedBox(
-                              width:
-                                  8), // Space between thumbs-up and thumbs-down buttons
+                          Text(
+                            dislikesCount.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(width: 8),
                           IconButton(
                             icon: Icon(
                               Icons.thumb_up,
@@ -725,19 +759,22 @@ class _ReviewCardState extends State<ReviewCard> {
                               size: 16,
                             ),
                             onPressed: () {
-                              setState(() {
-                                isLiked = !isLiked;
-                                if (isLiked && isDisliked) {
-                                  isDisliked = false;
-                                }
-                              });
+                              if (!isLiked) {
+                                submitLikeDislike(1);
+                              }
                             },
+                          ),
+                          Text(
+                            likesCount.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
-// Space before the last divider
                   Divider(color: Colors.grey[400]),
                 ],
               ),

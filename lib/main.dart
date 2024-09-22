@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'About_us.dart';
 import 'Batches/Batch.dart';
+import 'Batches/Custom_Batch.dart';
 import 'Course/intructorDetails.dart';
 import 'Instructor.dart';
 import 'Instructor_deatails.dart';
@@ -16,9 +17,12 @@ import 'FollowUs.dart';
 import 'Learning&Center.dart';
 import 'Navbar.dart';
 
+import 'Notes.dart';
 import 'Profile/More_Free.dart';
 import 'Refer/Cart.dart';
-import 'User_auth/signin_page.dart'; // Import SignInPage
+import 'User_auth/signin_page.dart';
+import 'new screen/Books_Screen.dart';
+import 'new screen/Videos_Screen.dart'; // Import SignInPage
 
 void main() {
   runApp(const MyApp());
@@ -46,7 +50,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // Remove the debug banner
       initialRoute: '/',
       routes: {
-        '/': (context) => Navbar(),
+        '/': (context) => Books(),
         '/login': (context) => MainPage(), // Add the CheckAuth route
 
         // Login screen
